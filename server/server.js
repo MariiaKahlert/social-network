@@ -18,6 +18,8 @@ app.use(
     })
 );
 
+app.use(express.json());
+
 app.use(compression());
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
@@ -31,6 +33,10 @@ app.get("/welcome", (req, res) => {
     } else {
         res.sendFile(path.join(__dirname, "..", "client", "index.html"));
     }
+});
+
+app.post("/registration", (req, res) => {
+    console.log(req.body);
 });
 
 app.get("*", function (req, res) {
