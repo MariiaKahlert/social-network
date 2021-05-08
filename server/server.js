@@ -4,6 +4,8 @@ const cookieSession = require("cookie-session");
 const cookieSecret = require("../secrets.json")["cookie-secret"];
 const compression = require("compression");
 const path = require("path");
+const { hash, compare } = require("./bcrypt");
+const { insertUser } = require("./db");
 
 app.use(
     cookieSession({
@@ -27,7 +29,6 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 // Routes
 
 app.get("/welcome", (req, res) => {
-    // console.log(req.session);
     if (req.session.userId) {
         res.redirect("/");
     } else {
@@ -36,7 +37,30 @@ app.get("/welcome", (req, res) => {
 });
 
 app.post("/registration", (req, res) => {
-    console.log(req.body);
+    const { firstName, lastName, email, password } = req.body;
+    hash(password)
+        .then((passwordHash) => {
+            insertUser(firstName, lastName, email, passwordHash)
+                .then((result) => {
+                    const { id } = result.rows[0];
+                    req.session.userId = id;
+                    res.status(200).json({
+                        success: "User inserted successfully",
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    res.status(500).json({
+                        error: "Error in /registration route",
+                    });
+                });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: "Error in /registration route",
+            });
+        });
 });
 
 app.get("*", function (req, res) {

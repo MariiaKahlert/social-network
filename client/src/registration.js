@@ -11,19 +11,26 @@ export default class Registration extends Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
-        console.log(this.state);
     }
 
-    handleSubmit() {
+    handleSubmit(e) {
+        e.preventDefault();
         axios
             .post("/registration", {
-                first_name: this.state["register-first"],
-                last_name: this.state["register-last"],
+                firstName: this.state["register-first"],
+                lastName: this.state["register-last"],
                 email: this.state["register-email"],
                 password: this.state["register-password"],
             })
-            .then()
-            .catch((err) => console.log(err));
+            .then(() => {
+                location.replace("/");
+            })
+            .catch((err) => {
+                console.log(err);
+                this.setState({
+                    error: "Something went wrong. Please, try again.",
+                });
+            });
     }
 
     render() {
@@ -31,6 +38,7 @@ export default class Registration extends Component {
             <div>
                 <h1>Registration Form</h1>
                 <form>
+                    {this.state.error && <p>{this.state.error}</p>}
                     <label htmlFor="register-first">First name</label>
                     <input
                         type="text"
@@ -73,8 +81,8 @@ export default class Registration extends Component {
                     ></input>
                     <button
                         type="submit"
-                        onClick={() => {
-                            this.handleSubmit();
+                        onClick={(e) => {
+                            this.handleSubmit(e);
                         }}
                     >
                         Submit
