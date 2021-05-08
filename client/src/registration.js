@@ -35,60 +35,84 @@ export default class Registration extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Registration Form</h1>
-                <form>
-                    {this.state.error && <p>{this.state.error}</p>}
-                    <label htmlFor="register-first">First name</label>
-                    <input
-                        type="text"
-                        name="register-first"
-                        id="register-first"
-                        required
-                        onChange={(e) => {
-                            this.handleChange(e);
-                        }}
-                    ></input>
-                    <label htmlFor="register-last">Last name</label>
-                    <input
-                        type="text"
-                        name="register-last"
-                        id="register-last"
-                        required
-                        onChange={(e) => {
-                            this.handleChange(e);
-                        }}
-                    ></input>
-                    <label htmlFor="register-email">Email</label>
-                    <input
-                        type="email"
-                        name="register-email"
-                        id="register-email"
-                        required
-                        onChange={(e) => {
-                            this.handleChange(e);
-                        }}
-                    ></input>
-                    <label htmlFor="register-password">Password</label>
-                    <input
-                        type="password"
-                        name="register-password"
-                        id="register-password"
-                        required
-                        onChange={(e) => {
-                            this.handleChange(e);
-                        }}
-                    ></input>
-                    <button
-                        type="submit"
-                        onClick={(e) => {
-                            this.handleSubmit(e);
-                        }}
+            <form className="flex flex-col bg-purple-500 md:w-4/5 lg:w-3/5 px-12 pt-14 pb-12 shadow-lg rounded-lg">
+                <h2 className="text-center text-white font-bold mb-6 text-xl">
+                    First time here?
+                </h2>
+                {this.state.error && (
+                    <p className="text-center mb-4">{this.state.error}</p>
+                )}
+                <label htmlFor="register-first" className="text-white">
+                    First name
+                </label>
+                <input
+                    type="text"
+                    name="register-first"
+                    id="register-first"
+                    required
+                    onChange={(e) => {
+                        this.handleChange(e);
+                    }}
+                    className="rounded py-1 px-2 outline-none"
+                ></input>
+                <label htmlFor="register-last" className="text-white mt-2">
+                    Last name
+                </label>
+                <input
+                    type="text"
+                    name="register-last"
+                    id="register-last"
+                    required
+                    onChange={(e) => {
+                        this.handleChange(e);
+                    }}
+                    className="rounded py-1 px-2 outline-none"
+                ></input>
+                <label htmlFor="register-email" className="text-white mt-2">
+                    Email
+                </label>
+                <input
+                    type="email"
+                    name="register-email"
+                    id="register-email"
+                    required
+                    onChange={(e) => {
+                        this.handleChange(e);
+                    }}
+                    className="rounded py-1 px-2 outline-none"
+                ></input>
+                <label htmlFor="register-password" className="text-white mt-2">
+                    Password
+                </label>
+                <input
+                    type="password"
+                    name="register-password"
+                    id="register-password"
+                    required
+                    onChange={(e) => {
+                        this.handleChange(e);
+                    }}
+                    className="rounded py-1 px-2 outline-none"
+                ></input>
+                <button
+                    type="submit"
+                    onClick={(e) => {
+                        this.handleSubmit(e);
+                    }}
+                    className="active:outline-none bg-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                >
+                    Submit
+                </button>
+                <div className="self-center mt-4">
+                    <span className="text-white">Already in touch?</span>
+                    <a
+                        className="text-white ml-1 underline hover:text-purple-200 duration-200"
+                        href="#"
                     >
-                        Submit
-                    </button>
-                </form>
-            </div>
+                        Log in
+                    </a>
+                </div>
+            </form>
         );
     }
 }
