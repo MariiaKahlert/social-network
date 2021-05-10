@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cookieSession = require("cookie-session");
 const cookieSecret = require("../secrets.json")["cookie-secret"];
+const csurf = require("csurf");
 const compression = require("compression");
 const path = require("path");
 const { hash, compare } = require("./bcrypt");
@@ -13,6 +14,12 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
+
+app.use(csurf());
+app.use((req, res, next) => {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 app.use(
     express.urlencoded({
