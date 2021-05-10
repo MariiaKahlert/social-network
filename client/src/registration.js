@@ -41,7 +41,9 @@ export default class Registration extends Component {
                     First time here?
                 </h2>
                 {this.state.error && (
-                    <p className="text-center mb-4">{this.state.error}</p>
+                    <p className="text-red-200 text-center mb-4">
+                        {this.state.error}
+                    </p>
                 )}
                 <label htmlFor="register-first" className="text-white">
                     First name
@@ -105,10 +107,10 @@ export default class Registration extends Component {
                     Sign up
                 </button>
                 <div className="self-center mt-4">
-                    <span className="text-white">Already in touch?</span>
+                    <span className="text-purple-200">Already in touch?</span>
                     <Link
                         to="/login"
-                        className="text-white ml-1 underline hover:text-purple-200 duration-200"
+                        className="text-purple-200 ml-1 hover:underline hover:text-white duration-200"
                     >
                         Log in
                     </Link>
