@@ -46,7 +46,7 @@ export default class Registration extends Component {
                     </p>
                 )}
                 <label htmlFor="register-first" className="text-white">
-                    First name
+                    First name *
                 </label>
                 <input
                     type="text"
@@ -59,7 +59,7 @@ export default class Registration extends Component {
                     className="rounded py-1 px-2 outline-none"
                 ></input>
                 <label htmlFor="register-last" className="text-white mt-2">
-                    Last name
+                    Last name *
                 </label>
                 <input
                     type="text"
@@ -72,7 +72,7 @@ export default class Registration extends Component {
                     className="rounded py-1 px-2 outline-none"
                 ></input>
                 <label htmlFor="register-email" className="text-white mt-2">
-                    Email
+                    Email *
                 </label>
                 <input
                     type="email"
@@ -85,7 +85,7 @@ export default class Registration extends Component {
                     className="rounded py-1 px-2 outline-none"
                 ></input>
                 <label htmlFor="register-password" className="text-white mt-2">
-                    Password
+                    Password *
                 </label>
                 <input
                     type="password"

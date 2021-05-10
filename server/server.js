@@ -6,7 +6,9 @@ const csurf = require("csurf");
 const compression = require("compression");
 const path = require("path");
 const { hash, compare } = require("./bcrypt");
-const { insertUser, selectUser } = require("./db");
+const cryptoRandomString = require("crypto-random-string");
+const { insertUser, selectUser, insertCode } = require("./db");
+const { sendEmail } = require("./ses");
 
 app.use(
     cookieSession({
@@ -54,6 +56,7 @@ app.post("/registration", (req, res) => {
         .then((passwordHash) => {
             insertUser(firstName, lastName, email, passwordHash)
                 .then((result) => {
+                    // Check if result.rows is not empty ?
                     const { id } = result.rows[0];
                     req.session.userId = id;
                     res.status(200).json({
@@ -105,6 +108,56 @@ app.post("/login", (req, res) => {
                 error: "Error in /login route",
             });
         });
+});
+
+app.post("/password/reset/start", (req, res) => {
+    selectUser(req.body.email)
+        .then((result) => {
+            if (result.rows.length > 0) {
+                const secretCode = cryptoRandomString({
+                    length: 6,
+                });
+                const email = result.rows[0].email;
+                insertCode(secretCode, email)
+                    .then((result) => {
+                        if (result.rows.length > 0) {
+                            sendEmail(
+                                result.rows[0].email,
+                                `Here is your confirmation code: ${result.rows[0].code}`,
+                                "Reset password"
+                            );
+                            res.status(200).json({
+                                success:
+                                    "Email with the code sent successfully!",
+                            });
+                        } else {
+                            res.status(500).json({
+                                error: "Failed to insert code",
+                            });
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500).json({
+                            error: "Error in insertCode",
+                        });
+                    });
+            } else {
+                res.status(500).json({
+                    error: "Invalid email",
+                });
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: "Error in /password/reset/start route",
+            });
+        });
+});
+
+app.post("/password/reset/verify", (req, res) => {
+    console.log(req.body);
 });
 
 app.get("*", function (req, res) {

@@ -21,3 +21,14 @@ module.exports.selectUser = (email) => {
         [email]
     );
 };
+
+module.exports.insertCode = (code, email) => {
+    return db.query(
+        `
+            INSERT INTO codes (code, email)
+            VALUES ($1, $2)
+            RETURNING *
+        `,
+        [code, email]
+    );
+};

@@ -41,7 +41,7 @@ export default class Login extends Component {
                     </p>
                 )}
                 <label htmlFor="login-email" className="text-white mt-2">
-                    Email
+                    Email *
                 </label>
                 <input
                     type="email"
@@ -54,7 +54,7 @@ export default class Login extends Component {
                     className="rounded py-1 px-2 outline-none"
                 ></input>
                 <label htmlFor="login-password" className="text-white mt-2">
-                    Password
+                    Password *
                 </label>
                 <input
                     type="password"
@@ -76,12 +76,12 @@ export default class Login extends Component {
                     Log in
                 </button>
                 <div className="self-center mt-4">
-                    <a
+                    <Link
+                        to="/password/reset"
                         className="text-purple-200 ml-1 hover:underline hover:text-white duration-200"
-                        href="#"
                     >
                         Forgot your password?
-                    </a>
+                    </Link>
                 </div>
                 <Link
                     to="/"
