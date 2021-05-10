@@ -6,7 +6,7 @@ const csurf = require("csurf");
 const compression = require("compression");
 const path = require("path");
 const { hash, compare } = require("./bcrypt");
-const { insertUser } = require("./db");
+const { insertUser, selectUser } = require("./db");
 
 app.use(
     cookieSession({
@@ -66,6 +66,38 @@ app.post("/registration", (req, res) => {
             console.log(err);
             res.status(500).json({
                 error: "Error in /registration route",
+            });
+        });
+});
+
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    selectUser(email)
+        .then((result) => {
+            compare(password, result.rows[0].password_hash)
+                .then((match) => {
+                    if (match === true) {
+                        req.session.userId = result.rows[0].id;
+                        res.status(200).json({
+                            success: "Valid password",
+                        });
+                    } else {
+                        res.status(500).json({
+                            error: "Invalid password",
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                    res.status(500).json({
+                        error: "Error in /login route",
+                    });
+                });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: "Error in /login route",
             });
         });
 });

@@ -11,3 +11,13 @@ module.exports.insertUser = (firstName, lastName, email, passwordHash) => {
         [firstName, lastName, email, passwordHash]
     );
 };
+
+module.exports.selectUser = (email) => {
+    return db.query(
+        `
+            SELECT * FROM users
+            WHERE email = $1
+        `,
+        [email]
+    );
+};

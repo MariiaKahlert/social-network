@@ -1,4 +1,6 @@
+import { HashRouter, Route } from "react-router-dom";
 import Registration from "./registration";
+import Login from "./login";
 
 export default function Welcome() {
     return (
@@ -11,9 +13,12 @@ export default function Welcome() {
                     IN TOUCH
                 </h1>
             </div>
-            <div className="w-1/2 flex justify-center items-center">
-                <Registration />
-            </div>
+            <HashRouter>
+                <div className="w-1/2 flex justify-center items-center">
+                    <Route exact path="/" component={Registration} />
+                    <Route path="/login" component={Login} />
+                </div>
+            </HashRouter>
         </div>
     );
 }
