@@ -22,6 +22,18 @@ module.exports.selectUser = (email) => {
     );
 };
 
+module.exports.updateUser = (passwordHash, email) => {
+    return db.query(
+        `
+            UPDATE users
+            SET password_hash = $1
+            WHERE email = $2
+            RETURNING *
+        `,
+        [passwordHash, email]
+    );
+};
+
 module.exports.insertCode = (code, email) => {
     return db.query(
         `
@@ -30,5 +42,18 @@ module.exports.insertCode = (code, email) => {
             RETURNING *
         `,
         [code, email]
+    );
+};
+
+module.exports.selectCode = (email) => {
+    return db.query(
+        `  
+            SELECT * FROM codes
+            WHERE email = $1
+            AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'
+            ORDER BY created_at DESC
+            LIMIT 1
+        `,
+        [email]
     );
 };

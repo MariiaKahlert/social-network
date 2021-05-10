@@ -16,6 +16,9 @@ export default class Login extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        this.setState({
+            error: null,
+        });
         axios
             .post("/login", {
                 email: this.state["login-email"],

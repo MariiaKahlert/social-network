@@ -18,7 +18,9 @@ export default class PasswordReset extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        // console.log(this.state.view);
+        this.setState({
+            error: null,
+        });
         if (this.state.view === 1) {
             axios
                 .post("/password/reset/start", {
@@ -37,8 +39,16 @@ export default class PasswordReset extends Component {
                 });
         } else if (this.state.view === 2) {
             axios
-                .post("/password/reset/verify")
-                .then()
+                .post("/password/reset/verify", {
+                    email: this.state["email"],
+                    password: this.state["password"],
+                    code: this.state["verification-code"],
+                })
+                .then(() => {
+                    this.setState({
+                        view: 3,
+                    });
+                })
                 .catch((err) => {
                     console.log(err);
                     this.setState({
@@ -112,7 +122,7 @@ export default class PasswordReset extends Component {
                         New password *
                     </label>
                     <input
-                        type="text"
+                        type="password"
                         name="password"
                         id="password"
                         required
@@ -131,6 +141,20 @@ export default class PasswordReset extends Component {
                         Save
                     </button>
                 </form>
+            );
+        } else if (this.state.view === 3) {
+            return (
+                <div className="flex flex-col bg-purple-500 md:w-4/5 lg:w-3/5 px-12 pt-14 pb-12 shadow-lg rounded-lg">
+                    <p className="text-center text-purple-200 font-bold mb-6 text-xl">
+                        Password successfully reset!
+                    </p>
+                    <Link
+                        to="/login"
+                        className="text-center text-white underline hover:text-purple-200 duration-200"
+                    >
+                        Log in
+                    </Link>
+                </div>
             );
         }
     }

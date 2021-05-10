@@ -16,6 +16,9 @@ export default class Registration extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        this.setState({
+            error: null,
+        });
         axios
             .post("/registration", {
                 firstName: this.state["register-first"],

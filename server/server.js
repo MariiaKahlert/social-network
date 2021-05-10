@@ -7,7 +7,13 @@ const compression = require("compression");
 const path = require("path");
 const { hash, compare } = require("./bcrypt");
 const cryptoRandomString = require("crypto-random-string");
-const { insertUser, selectUser, insertCode } = require("./db");
+const {
+    insertUser,
+    selectUser,
+    updateUser,
+    insertCode,
+    selectCode,
+} = require("./db");
 const { sendEmail } = require("./ses");
 
 app.use(
@@ -157,7 +163,44 @@ app.post("/password/reset/start", (req, res) => {
 });
 
 app.post("/password/reset/verify", (req, res) => {
-    console.log(req.body);
+    const { email, password, code } = req.body;
+    selectCode(email)
+        .then((result) => {
+            if (result.rows[0].code === code) {
+                hash(password)
+                    .then((passwordHash) => {
+                        updateUser(passwordHash, email)
+                            .then(() => {
+                                res.status(200).json({
+                                    success: "User inserted successfully",
+                                });
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                                res.status(500).json({
+                                    error:
+                                        "Error in /password/reset/verify route",
+                                });
+                            });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500).json({
+                            error: "Error in /password/reset/verify route",
+                        });
+                    });
+            } else {
+                res.status(500).json({
+                    error: "Invalid code",
+                });
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: "Error in /password/reset/verify route",
+            });
+        });
 });
 
 app.get("*", function (req, res) {
