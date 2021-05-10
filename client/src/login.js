@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
 import axios from "./axios";
 
 export default class Login extends Component {
@@ -73,14 +74,22 @@ export default class Login extends Component {
                     Log in
                 </button>
                 <div className="self-center mt-4">
-                    <span className="text-white">Forgot your password?</span>
+                    <span className="text-purple-200">
+                        Forgot your password?
+                    </span>
                     <a
-                        className="text-white ml-1 underline hover:text-purple-200 duration-200"
+                        className="text-purple-200 ml-1 underline hover:text-white duration-200"
                         href="#"
                     >
                         Reset
                     </a>
                 </div>
+                <Link
+                    to="/"
+                    className="text-white self-center mt-4 underline hover:text-purple-200 duration-200"
+                >
+                    Sign up
+                </Link>
             </form>
         );
     }

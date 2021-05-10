@@ -21,6 +21,11 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use((req, res, next) => {
+    res.setHeader("x-frame-options", "deny");
+    next();
+});
+
 app.use(
     express.urlencoded({
         extended: false,
