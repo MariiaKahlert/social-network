@@ -23,12 +23,17 @@ export default class Uploader extends Component {
                 const { img_url } = response.data;
                 this.props.updateProfileImage(img_url);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err);
+                this.setState({
+                    error: "Something went wrong. Please, try again.",
+                });
+            });
     }
 
     render() {
         return (
-            <form className="flex flex-col bg-purple-400 shadow-lg rounded-lg">
+            <form className="flex flex-col justify-evenly z-10 bg-purple-500 md:w-4/5 lg:w-2/5 h-2/5 px-6 pt-8 pb-6 shadow-lg rounded-lg">
                 <h2 className="text-center text-white mb-6 text-xl">
                     Upload a profile picture
                 </h2>
@@ -37,9 +42,16 @@ export default class Uploader extends Component {
                         {this.state.error}
                     </p>
                 )}
+                <label
+                    htmlFor="file"
+                    className="border-2 border-purple-200 text-center text-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:border-purple-300 hover:text-purple-300 cursor-pointer"
+                >
+                    {this.state.file?.name || "Choose a file..."}
+                </label>
                 <input
                     type="file"
                     name="file"
+                    id="file"
                     accept="image/*"
                     required
                     onChange={(e) => {

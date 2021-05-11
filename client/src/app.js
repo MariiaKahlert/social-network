@@ -41,33 +41,39 @@ export default class App extends Component {
 
     render() {
         return (
-            <div className="flex h-screen w-screen">
-                <div className="w-1/4 bg-purple-500 text-purple-200">
-                    <div className="p-8">
-                        <h1 className="text-center font-bold text-2xl">
-                            IN TOUCH
-                        </h1>
-                        <div className="flex items-center">
+            <div className="flex h-screen">
+                <div className="lg:w-1/5 md:w-1/3 bg-purple-500 text-purple-200">
+                    <div className="pr-8 pl-10 pt-10">
+                        <h1 className="font-bold text-2xl">IN TOUCH</h1>
+                        <div className="flex items-center mt-8">
                             <ProfilePicture
                                 imgUrl={this.state.imgUrl || "user.png"}
                                 firstName={this.state.firstName}
                                 lastName={this.state.lastName}
                                 toggleUploader={this.toggleUploader}
+                                border={this.state.imgUrl === null}
                             />
                             <div className="ml-4">
-                                <p
-                                    onClick={() => {
-                                        this.toggleUploader();
-                                    }}
-                                >
+                                <p className="text-lg text-white">
                                     {this.state.firstName}
                                 </p>
-                                <p>{this.state.lastName}</p>
+                                <p className="text-lg text-white">
+                                    {this.state.lastName}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="w-3/4 flex items-center justify-center">
+                <div
+                    className="absolute bg-purple-100 bg-opacity-50 backdrop-filter backdrop-blur-sm h-screen w-screen duration-200"
+                    style={{
+                        opacity: this.state.uploaderIsVisible ? 1 : 0,
+                        zIndex: this.state.uploaderIsVisible ? "auto" : -1,
+                    }}
+                    onClick={this.toggleUploader}
+                ></div>
+
+                <div className="lg:w-4/5 md:w-2/3 flex items-center justify-center">
                     {this.state.uploaderIsVisible && (
                         <Uploader
                             updateProfileImage={this.updateProfileImage}

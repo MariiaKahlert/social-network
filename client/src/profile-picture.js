@@ -3,13 +3,17 @@ export default function ProfilePicture({
     lastName,
     imgUrl,
     toggleUploader,
+    border,
 }) {
     return (
-        <div
-            className="border rounded-lg border-purple-200 cursor-pointer"
+        <img
+            src={imgUrl}
+            alt={`${firstName} ${lastName}`}
             onClick={toggleUploader}
-        >
-            <img src={imgUrl} alt="" className="h-8"></img>
-        </div>
+            className={
+                "h-14 rounded-lg cursor-pointer " +
+                (border ? "border-2 border-purple-200 p-2" : "")
+            }
+        ></img>
     );
 }
