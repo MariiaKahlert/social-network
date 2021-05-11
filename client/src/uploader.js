@@ -33,7 +33,7 @@ export default class Uploader extends Component {
 
     render() {
         return (
-            <form className="flex flex-col justify-evenly z-10 bg-purple-500 md:w-4/5 lg:w-2/5 h-2/5 px-6 pt-8 pb-6 shadow-lg rounded-lg">
+            <form className="flex flex-col justify-center z-10 bg-purple-500 md:w-4/5 lg:w-2/5 h-3/5 px-6 pt-8 pb-6 shadow-lg rounded-lg">
                 <h2 className="text-center text-white mb-6 text-xl">
                     Upload a profile picture
                 </h2>
@@ -66,6 +66,13 @@ export default class Uploader extends Component {
                     className="active:outline-none bg-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
                 >
                     Save
+                </button>
+                <button
+                    type="button"
+                    className="mt-10 text-purple-200 hover:text-white hover:underline"
+                    onClick={this.props.toggleUploader}
+                >
+                    Cancel
                 </button>
             </form>
         );

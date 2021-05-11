@@ -77,6 +77,7 @@ export default class App extends Component {
                     {this.state.uploaderIsVisible && (
                         <Uploader
                             updateProfileImage={this.updateProfileImage}
+                            toggleUploader={this.toggleUploader}
                         />
                     )}
                 </div>
