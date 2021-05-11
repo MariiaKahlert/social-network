@@ -34,6 +34,16 @@ module.exports.updateUser = (passwordHash, email) => {
     );
 };
 
+module.exports.getUserInfo = (userId) => {
+    return db.query(
+        `
+            SELECT * FROM users
+            WHERE id = $1
+        `,
+        [userId]
+    );
+};
+
 module.exports.insertCode = (code, email) => {
     return db.query(
         `

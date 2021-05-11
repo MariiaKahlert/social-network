@@ -8,6 +8,8 @@ const csurf = require("csurf");
 const compression = require("compression");
 const path = require("path");
 
+const { getUserInfo } = require("./db");
+
 app.use(
     cookieSession({
         secret: cookieSecret,
@@ -53,6 +55,18 @@ require("./routes/auth");
 
 // Password reset
 require("./routes/password-reset");
+
+// User information
+app.get("/user", (req, res) => {
+    console.log(req.session);
+    const { userId } = req.session;
+    getUserInfo(userId)
+        .then((result) => {
+            console.log(result);
+            res.json(result.rows[0]);
+        })
+        .catch((err) => console.log(err));
+});
 
 app.get("*", function (req, res) {
     if (!req.session.userId) {

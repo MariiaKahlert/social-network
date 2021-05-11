@@ -7,15 +7,22 @@ export default class App extends Component {
     constructor() {
         super();
         this.state = {
-            first: "Mariia",
-            last: "Kahlert",
-            imgUrl: null,
             uploaderIsVisible: false,
         };
     }
 
     componentDidMount() {
         console.log("App just mounted!");
+        axios
+            .get("/user")
+            .then((response) => {
+                this.setState({
+                    first: response.data["first_name"],
+                    last: response.data["last_name"],
+                });
+                console.log(this.state);
+            })
+            .catch((err) => console.log(err));
     }
 
     toggleUploader() {
@@ -35,7 +42,6 @@ export default class App extends Component {
                         <ProfilePicture
                             first={this.state.first}
                             last={this.state.last}
-                            imgUrl={this.state.imgUrl}
                         />
                         <h2
                             onClick={() => this.toggleUploader()}
