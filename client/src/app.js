@@ -9,6 +9,7 @@ export default class App extends Component {
         this.state = {
             uploaderIsVisible: false,
         };
+        this.toggleUploader = this.toggleUploader.bind(this);
     }
 
     componentDidMount() {
@@ -17,15 +18,15 @@ export default class App extends Component {
             .get("/user")
             .then((response) => {
                 this.setState({
-                    first: response.data["first_name"],
-                    last: response.data["last_name"],
+                    firstName: response.data["first_name"],
+                    lastName: response.data["last_name"],
                 });
-                console.log(this.state);
             })
             .catch((err) => console.log(err));
     }
 
     toggleUploader() {
+        console.log("toggleUploader");
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
@@ -39,19 +40,27 @@ export default class App extends Component {
                         <h1 className="text-center font-bold text-2xl">
                             IN TOUCH
                         </h1>
-                        <ProfilePicture
-                            first={this.state.first}
-                            last={this.state.last}
-                        />
-                        <h2
-                            onClick={() => this.toggleUploader()}
-                            className="text-center"
-                        >
-                            Click to show or close uploader
-                        </h2>
+                        <div className="flex items-center">
+                            <ProfilePicture
+                                picUrl={this.state.picUrl || "user.png"}
+                                firstName={this.state.firstName}
+                                lastName={this.state.lastName}
+                                toggleUploader={this.toggleUploader}
+                            />
+                            <div className="ml-4">
+                                <p
+                                    onClick={() => {
+                                        this.toggleUploader();
+                                    }}
+                                >
+                                    {this.state.firstName}
+                                </p>
+                                <p>{this.state.lastName}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="w-3/4">
+                <div className="w-3/4 flex items-center justify-center">
                     {this.state.uploaderIsVisible && <Uploader />}
                 </div>
             </div>

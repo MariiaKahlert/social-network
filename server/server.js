@@ -7,6 +7,10 @@ const cookieSecret = require("../secrets.json")["cookie-secret"];
 const csurf = require("csurf");
 const compression = require("compression");
 const path = require("path");
+const { upload } = require("./s3");
+const { s3Url } = require("./config.json");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
 
 const { getUserInfo } = require("./db");
 
@@ -40,6 +44,26 @@ app.use(compression());
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
+// File upload
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
+
 // Routes
 
 app.get("/welcome", (req, res) => {
@@ -58,14 +82,17 @@ require("./routes/password-reset");
 
 // User information
 app.get("/user", (req, res) => {
-    console.log(req.session);
     const { userId } = req.session;
     getUserInfo(userId)
         .then((result) => {
-            console.log(result);
             res.json(result.rows[0]);
         })
         .catch((err) => console.log(err));
+});
+
+// Image upload
+app.post("/upload", uploader.single("file"), upload, (req, res) => {
+    console.log(req.body);
 });
 
 app.get("*", function (req, res) {
