@@ -67,7 +67,7 @@ export default class PasswordReset extends Component {
                             {this.state.error}
                         </p>
                     )}
-                    <h2 className="text-center text-purple-200 font-bold mb-6 text-xl">
+                    <h2 className="text-center text-white mb-6 text-xl">
                         Please enter the email that you used to sign in
                     </h2>
                     <label htmlFor="email" className="text-white mt-2">
