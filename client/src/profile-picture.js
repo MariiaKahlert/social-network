@@ -1,7 +1,7 @@
 export default function ProfilePicture({
     firstName,
     lastName,
-    picUrl,
+    imgUrl,
     toggleUploader,
 }) {
     return (
@@ -9,7 +9,7 @@ export default function ProfilePicture({
             className="border rounded-lg border-purple-200 cursor-pointer"
             onClick={toggleUploader}
         >
-            <img src={picUrl} alt="" className="h-8"></img>
+            <img src={imgUrl} alt="" className="h-8"></img>
         </div>
     );
 }

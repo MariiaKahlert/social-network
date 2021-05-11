@@ -12,7 +12,7 @@ const { s3Url } = require("./config.json");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 
-const { getUserInfo } = require("./db");
+const { getUserInfo, updateImgUrl } = require("./db");
 
 app.use(
     cookieSession({
@@ -92,7 +92,21 @@ app.get("/user", (req, res) => {
 
 // Image upload
 app.post("/upload", uploader.single("file"), upload, (req, res) => {
-    console.log(req.body);
+    if (req.file) {
+        const { filename } = req.file;
+        const { userId } = req.session;
+        const fullUrl = s3Url + filename;
+        updateImgUrl(fullUrl, userId)
+            .then((result) => {
+                res.json(result.rows[0]);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).json({
+                    error: "Error in /upload route",
+                });
+            });
+    }
 });
 
 app.get("*", function (req, res) {

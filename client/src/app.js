@@ -10,26 +10,33 @@ export default class App extends Component {
             uploaderIsVisible: false,
         };
         this.toggleUploader = this.toggleUploader.bind(this);
+        this.updateProfileImage = this.updateProfileImage.bind(this);
     }
 
     componentDidMount() {
-        console.log("App just mounted!");
         axios
             .get("/user")
             .then((response) => {
                 this.setState({
                     firstName: response.data["first_name"],
                     lastName: response.data["last_name"],
+                    imgUrl: response.data["img_url"],
                 });
             })
             .catch((err) => console.log(err));
     }
 
     toggleUploader() {
-        console.log("toggleUploader");
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
+    }
+
+    updateProfileImage(imgUrl) {
+        this.setState({
+            imgUrl,
+        });
+        this.toggleUploader();
     }
 
     render() {
@@ -42,7 +49,7 @@ export default class App extends Component {
                         </h1>
                         <div className="flex items-center">
                             <ProfilePicture
-                                picUrl={this.state.picUrl || "user.png"}
+                                imgUrl={this.state.imgUrl || "user.png"}
                                 firstName={this.state.firstName}
                                 lastName={this.state.lastName}
                                 toggleUploader={this.toggleUploader}
@@ -61,7 +68,11 @@ export default class App extends Component {
                     </div>
                 </div>
                 <div className="w-3/4 flex items-center justify-center">
-                    {this.state.uploaderIsVisible && <Uploader />}
+                    {this.state.uploaderIsVisible && (
+                        <Uploader
+                            updateProfileImage={this.updateProfileImage}
+                        />
+                    )}
                 </div>
             </div>
         );

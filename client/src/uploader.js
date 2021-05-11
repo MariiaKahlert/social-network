@@ -7,13 +7,9 @@ export default class Uploader extends Component {
         this.state = {};
     }
 
-    componentDidMount() {
-        console.log("Uploader just mounted!");
-    }
-
     handleChange(e) {
         this.setState({
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.files[0],
         });
     }
 
@@ -23,14 +19,17 @@ export default class Uploader extends Component {
         formData.append("file", this.state.file);
         axios
             .post("/upload", formData)
-            .then()
+            .then((response) => {
+                const { img_url } = response.data;
+                this.props.updateProfileImage(img_url);
+            })
             .catch((err) => console.log(err));
     }
 
     render() {
         return (
             <form className="flex flex-col bg-purple-400 shadow-lg rounded-lg">
-                <h2 className="text-center text-white font-bold mb-6 text-xl">
+                <h2 className="text-center text-white mb-6 text-xl">
                     Upload a profile picture
                 </h2>
                 {this.state.error && (

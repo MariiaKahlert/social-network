@@ -67,3 +67,15 @@ module.exports.selectCode = (email) => {
         [email]
     );
 };
+
+module.exports.updateImgUrl = (fullUrl, userId) => {
+    return db.query(
+        `
+            UPDATE users
+            SET img_url = $1
+            WHERE id = $2
+            RETURNING *
+        `,
+        [fullUrl, userId]
+    );
+};
