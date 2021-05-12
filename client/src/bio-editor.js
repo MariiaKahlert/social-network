@@ -42,31 +42,48 @@ export default class BioEditor extends Component {
 
     render() {
         return (
-            <div>
+            <div className="flex flex-col mb-40">
                 {!this.props.bio && this.state.showAddOrEditBtn && (
-                    <button type="button" onClick={this.toggleTextArea}>
+                    <button
+                        type="button"
+                        onClick={this.toggleTextArea}
+                        className="bg-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                    >
                         Add bio
                     </button>
                 )}
                 {this.props.bio && this.state.showAddOrEditBtn && (
                     <>
                         <p>{this.props.bio}</p>
-                        <button type="button" onClick={this.toggleTextArea}>
+                        <button
+                            type="button"
+                            onClick={this.toggleTextArea}
+                            className="bg-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                        >
                             Edit bio
                         </button>
                     </>
                 )}
                 {this.state.showTextArea && (
-                    <div>
+                    <div className="flex flex-col">
                         <textarea
                             name="draftBio"
                             defaultValue={this.props.bio}
                             onChange={this.handleChange}
+                            className="bg-purple-500 rounded-lg shadow-lg p-4"
                         ></textarea>
-                        <button type="submit" onClick={this.handleSubmit}>
+                        <button
+                            type="submit"
+                            onClick={this.handleSubmit}
+                            className="bg-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                        >
                             Save
                         </button>
-                        <button type="button" onClick={this.toggleTextArea}>
+                        <button
+                            type="button"
+                            onClick={this.toggleTextArea}
+                            className="mt-4 text-purple-500 hover:text-purple-200 hover:underline"
+                        >
                             Cancel
                         </button>
                     </div>
