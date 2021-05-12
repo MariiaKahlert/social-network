@@ -1,6 +1,6 @@
 import ProfilePicture from "./profile-picture";
 import BioEditor from "./bio-editor";
-export default function Profile({ firstName, lastName, imgUrl }) {
+export default function Profile({ firstName, lastName, imgUrl, bio, setBio }) {
     return (
         <div className="h-1/2 w-full flex flex-col justify-center items-center">
             <ProfilePicture
@@ -8,7 +8,7 @@ export default function Profile({ firstName, lastName, imgUrl }) {
                 firstName={firstName}
                 lastName={lastName}
             />
-            <BioEditor />
+            <BioEditor bio={bio} setBio={setBio} />
         </div>
     );
 }

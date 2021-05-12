@@ -12,6 +12,7 @@ export default class App extends Component {
         };
         this.toggleUploader = this.toggleUploader.bind(this);
         this.updateProfileImage = this.updateProfileImage.bind(this);
+        this.setBio = this.setBio.bind(this);
     }
 
     componentDidMount() {
@@ -22,6 +23,7 @@ export default class App extends Component {
                     firstName: response.data["first_name"],
                     lastName: response.data["last_name"],
                     imgUrl: response.data["img_url"],
+                    bio: response.data["bio"],
                 });
             })
             .catch((err) => console.log(err));
@@ -38,6 +40,12 @@ export default class App extends Component {
             imgUrl,
         });
         this.toggleUploader();
+    }
+
+    setBio(newBio) {
+        this.setState({
+            bio: newBio,
+        });
     }
 
     render() {
@@ -66,11 +74,13 @@ export default class App extends Component {
                     onClick={this.toggleUploader}
                 ></div>
 
-                <div className="lg:w-4/5 md:w-2/3 flex items-center justify-center">
+                <div className="relative lg:w-4/5 md:w-2/3 flex items-center justify-center">
                     <Profile
                         imgUrl={this.state.imgUrl || "user.png"}
                         firstName={this.state.firstName}
                         lastName={this.state.lastName}
+                        bio={this.state.bio}
+                        setBio={this.setBio}
                     />
                     {this.state.uploaderIsVisible && (
                         <Uploader

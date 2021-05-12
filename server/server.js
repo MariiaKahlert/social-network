@@ -1,4 +1,4 @@
-const { getUserInfo } = require("./db");
+const { getUserInfo, updateBio } = require("./db");
 
 const express = require("express");
 const app = express();
@@ -68,6 +68,17 @@ app.get("/user", (req, res) => {
 
 // Image upload
 require("./routes/uploader");
+
+// Bio update
+app.post("/update-bio", (req, res) => {
+    const { bio } = req.body;
+    const { userId } = req.session;
+    updateBio(bio, userId)
+        .then((result) => {
+            res.json(result.rows[0]);
+        })
+        .catch((err) => console.log(err));
+});
 
 app.get("*", function (req, res) {
     if (!req.session.userId) {
