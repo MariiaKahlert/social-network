@@ -110,7 +110,7 @@ export default class Registration extends Component {
                     Sign up
                 </button>
                 <div className="self-center mt-4">
-                    <span className="text-purple-200">Already in touch?</span>
+                    <span className="text-purple-200">Already connected?</span>
                     <Link
                         to="/login"
                         className="text-purple-200 ml-1 underline hover:text-white duration-200"

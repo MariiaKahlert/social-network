@@ -11,7 +11,7 @@ export default function Welcome() {
                     Let's stay
                 </h2>
                 <h1 className="text-center text-5xl mt-4 text-purple-500 font-bold">
-                    IN TOUCH
+                    CONNECT
                 </h1>
             </div>
             <HashRouter>

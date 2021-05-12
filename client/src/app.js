@@ -53,7 +53,7 @@ export default class App extends Component {
             <div className="flex h-screen">
                 <div className="lg:w-1/5 md:w-1/3 bg-purple-500 text-purple-200">
                     <div className="pr-8 pl-10 pt-10">
-                        <h1 className="font-bold text-2xl">IN TOUCH</h1>
+                        <h1 className="font-bold text-2xl">CONNECT</h1>
                         <div className="flex items-center mt-8">
                             <ProfilePicture
                                 imgUrl={this.state.imgUrl || "user.png"}
@@ -63,16 +63,11 @@ export default class App extends Component {
                                 border={this.state.imgUrl === null}
                             />
                         </div>
+                        <div className="mt-14">
+                            <p className="text-white text-lg">My profile</p>
+                        </div>
                     </div>
                 </div>
-                <div
-                    className="absolute bg-purple-100 bg-opacity-50 backdrop-filter backdrop-blur-sm h-screen w-screen duration-200"
-                    style={{
-                        opacity: this.state.uploaderIsVisible ? 1 : 0,
-                        zIndex: this.state.uploaderIsVisible ? "auto" : -1,
-                    }}
-                    onClick={this.toggleUploader}
-                ></div>
 
                 <div className="relative lg:w-4/5 md:w-2/3 flex items-center justify-center">
                     <Profile
@@ -89,6 +84,15 @@ export default class App extends Component {
                         />
                     )}
                 </div>
+
+                <div
+                    className="absolute bg-purple-100 bg-opacity-50 backdrop-filter backdrop-blur-sm h-screen w-screen duration-200"
+                    style={{
+                        opacity: this.state.uploaderIsVisible ? 1 : 0,
+                        zIndex: this.state.uploaderIsVisible ? "auto" : -1,
+                    }}
+                    onClick={this.toggleUploader}
+                ></div>
             </div>
         );
     }

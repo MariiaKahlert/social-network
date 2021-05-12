@@ -82,7 +82,7 @@ export default class BioEditor extends Component {
                         <button
                             type="button"
                             onClick={this.toggleTextArea}
-                            className="mt-4 text-purple-500 hover:text-purple-200 hover:underline"
+                            className="mt-4 text-purple-500 hover:text-purple-200 duration-200"
                         >
                             Cancel
                         </button>
