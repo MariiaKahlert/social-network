@@ -34,7 +34,7 @@ export default function ProfilePicture({
                             alt={`${firstName} ${lastName}`}
                             onClick={toggleUploader}
                             className={
-                                "h-28 rounded-lg shadow-lg " +
+                                "h-28 rounded-lg shadow-lg bg-white" +
                                 (border ? "border-2 border-purple-200 p-2" : "")
                             }
                         ></img>
