@@ -50,9 +50,9 @@ export default class App extends Component {
 
     render() {
         return (
-            <div className="flex h-screen">
+            <div className="flex min-h-screen">
                 <div className="lg:w-1/5 md:w-1/3 bg-purple-500 text-purple-200">
-                    <div className="pr-8 pl-10 pt-10">
+                    <div className="fixed pr-8 pl-10 pt-10">
                         <h1 className="font-bold text-2xl">CONNECT</h1>
                         <div className="flex items-center mt-8">
                             <ProfilePicture
@@ -60,7 +60,7 @@ export default class App extends Component {
                                 firstName={this.state.firstName}
                                 lastName={this.state.lastName}
                                 toggleUploader={this.toggleUploader}
-                                border={this.state.imgUrl === null}
+                                defaultImg={this.state.imgUrl === null}
                             />
                         </div>
                         <div className="mt-14">
@@ -69,13 +69,14 @@ export default class App extends Component {
                     </div>
                 </div>
 
-                <div className="relative lg:w-4/5 md:w-2/3 flex items-center justify-center">
+                <div className="relative lg:w-4/5 md:w-2/3 py-16 flex justify-center">
                     <Profile
                         imgUrl={this.state.imgUrl || "user.png"}
                         firstName={this.state.firstName}
                         lastName={this.state.lastName}
                         bio={this.state.bio}
                         setBio={this.setBio}
+                        defaultImg={this.state.imgUrl === null}
                     />
                     {this.state.uploaderIsVisible && (
                         <Uploader

@@ -42,19 +42,25 @@ export default class BioEditor extends Component {
 
     render() {
         return (
-            <div className="flex flex-col mb-40 md:w-3/5 lg:w-2/5">
+            <div className="flex flex-col flex-grow py-12 md:w-3/5 lg:w-2/5">
                 {!this.props.bio && this.state.showAddOrEditBtn && (
-                    <button
-                        type="button"
-                        onClick={this.toggleTextArea}
-                        className="bg-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
-                    >
-                        Add bio
-                    </button>
+                    <>
+                        <p className="flex-grow"></p>
+                        <button
+                            type="button"
+                            onClick={this.toggleTextArea}
+                            className="bg-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                        >
+                            Add bio
+                        </button>
+                    </>
                 )}
                 {this.props.bio && this.state.showAddOrEditBtn && (
                     <>
-                        <p className="text-center">{this.props.bio}</p>
+                        <div className="flex-grow overflow-auto">
+                            <p className="text-center">{this.props.bio}</p>
+                        </div>
+
                         <button
                             type="button"
                             onClick={this.toggleTextArea}
@@ -70,7 +76,7 @@ export default class BioEditor extends Component {
                             name="draftBio"
                             defaultValue={this.props.bio}
                             onChange={this.handleChange}
-                            className="border border-purple-300 text-purple-300 rounded-lg p-4 focus:outline-none"
+                            className="flex-grow border border-purple-300 text-purple-300 rounded-lg p-4 focus:outline-none resize-none"
                         ></textarea>
                         <button
                             type="submit"

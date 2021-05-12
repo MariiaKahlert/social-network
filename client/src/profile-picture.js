@@ -3,7 +3,7 @@ export default function ProfilePicture({
     lastName,
     imgUrl,
     toggleUploader,
-    border,
+    defaultImg,
     inProfile,
 }) {
     return (
@@ -16,7 +16,7 @@ export default function ProfilePicture({
                         onClick={toggleUploader}
                         className={
                             "h-14 rounded-lg cursor-pointer " +
-                            (border ? "border-2 border-purple-200 p-2" : "")
+                            (defaultImg ? "border-2 border-purple-200 p-2" : "")
                         }
                     ></img>
                     <div className="ml-4">
@@ -34,8 +34,8 @@ export default function ProfilePicture({
                             alt={`${firstName} ${lastName}`}
                             onClick={toggleUploader}
                             className={
-                                "h-28 rounded-lg shadow-lg bg-white" +
-                                (border ? "border-2 border-purple-200 p-2" : "")
+                                "h-28 rounded-lg shadow-lg bg-white " +
+                                (defaultImg ? "p-2" : "")
                             }
                         ></img>
                     </div>
