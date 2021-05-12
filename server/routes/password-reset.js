@@ -1,7 +1,7 @@
 const { app } = require("../server");
-const { hash } = require("../bcrypt");
+const { hash } = require("../utils/bcrypt");
 const cryptoRandomString = require("crypto-random-string");
-const { sendEmail } = require("../ses");
+const { sendEmail } = require("../utils/ses");
 const { selectUser, updateUser, insertCode, selectCode } = require("../db");
 
 app.post("/password/reset/start", (req, res) => {

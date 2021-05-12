@@ -71,7 +71,7 @@ export default class PasswordReset extends Component {
                         Please enter the email that you used to sign in
                     </h2>
                     <label htmlFor="email" className="text-white mt-2">
-                        Email *
+                        Email
                     </label>
                     <input
                         type="email"
@@ -106,7 +106,7 @@ export default class PasswordReset extends Component {
                         htmlFor="verification-code"
                         className="text-white mt-2"
                     >
-                        Verification code *
+                        Verification code
                     </label>
                     <input
                         type="text"
@@ -119,7 +119,7 @@ export default class PasswordReset extends Component {
                         className="rounded py-1 px-2 outline-none"
                     ></input>
                     <label htmlFor="password" className="text-white mt-2">
-                        New password *
+                        New password
                     </label>
                     <input
                         type="password"

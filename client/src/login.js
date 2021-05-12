@@ -41,7 +41,7 @@ export default class Login extends Component {
                     </p>
                 )}
                 <label htmlFor="login-email" className="text-white mt-2">
-                    Email *
+                    Email
                 </label>
                 <input
                     type="email"
@@ -54,7 +54,7 @@ export default class Login extends Component {
                     className="rounded py-1 px-2 outline-none"
                 ></input>
                 <label htmlFor="login-password" className="text-white mt-2">
-                    Password *
+                    Password
                 </label>
                 <input
                     type="password"

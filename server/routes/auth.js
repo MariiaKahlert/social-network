@@ -1,5 +1,5 @@
 const { app } = require("../server");
-const { hash, compare } = require("../bcrypt");
+const { hash, compare } = require("../utils/bcrypt");
 const { insertUser, selectUser } = require("../db");
 
 app.post("/registration", (req, res) => {

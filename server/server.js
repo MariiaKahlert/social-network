@@ -1,3 +1,5 @@
+const { getUserInfo } = require("./db");
+
 const express = require("express");
 const app = express();
 module.exports.app = app;
@@ -7,12 +9,6 @@ const cookieSecret = require("../secrets.json")["cookie-secret"];
 const csurf = require("csurf");
 const compression = require("compression");
 const path = require("path");
-const { upload } = require("./s3");
-const { s3Url } = require("./config.json");
-const multer = require("multer");
-const uidSafe = require("uid-safe");
-
-const { getUserInfo, updateImgUrl } = require("./db");
 
 app.use(
     cookieSession({
@@ -44,26 +40,6 @@ app.use(compression());
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
-// File upload
-
-const diskStorage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, __dirname + "/uploads");
-    },
-    filename: function (req, file, callback) {
-        uidSafe(24).then(function (uid) {
-            callback(null, uid + path.extname(file.originalname));
-        });
-    },
-});
-
-const uploader = multer({
-    storage: diskStorage,
-    limits: {
-        fileSize: 2097152,
-    },
-});
-
 // Routes
 
 app.get("/welcome", (req, res) => {
@@ -91,23 +67,7 @@ app.get("/user", (req, res) => {
 });
 
 // Image upload
-app.post("/upload", uploader.single("file"), upload, (req, res) => {
-    if (req.file) {
-        const { filename } = req.file;
-        const { userId } = req.session;
-        const fullUrl = s3Url + filename;
-        updateImgUrl(fullUrl, userId)
-            .then((result) => {
-                res.json(result.rows[0]);
-            })
-            .catch((err) => {
-                console.log(err);
-                res.status(500).json({
-                    error: "Error in /upload route",
-                });
-            });
-    }
-});
+require("./routes/uploader");
 
 app.get("*", function (req, res) {
     if (!req.session.userId) {
