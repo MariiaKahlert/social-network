@@ -2,8 +2,8 @@ import { Component } from "react";
 import axios from "./axios";
 
 export default class Uploader extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {};
     }
 

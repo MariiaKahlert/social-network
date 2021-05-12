@@ -1,6 +1,7 @@
 import { Component } from "react";
 import ProfilePicture from "./profile-picture";
 import Uploader from "./uploader";
+import Profile from "./profile";
 import axios from "./axios";
 
 export default class App extends Component {
@@ -53,17 +54,14 @@ export default class App extends Component {
                                 toggleUploader={this.toggleUploader}
                                 border={this.state.imgUrl === null}
                             />
-                            <div className="ml-4">
-                                <p className="text-lg text-white">
-                                    {this.state.firstName}
-                                </p>
-                                <p className="text-lg text-white">
-                                    {this.state.lastName}
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </div>
+                <Profile
+                    imgUrl={this.state.imgUrl || "user.png"}
+                    firstName={this.state.firstName}
+                    lastName={this.state.lastName}
+                />
                 <div
                     className="absolute bg-purple-100 bg-opacity-50 backdrop-filter backdrop-blur-sm h-screen w-screen duration-200"
                     style={{
