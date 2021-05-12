@@ -57,11 +57,6 @@ export default class App extends Component {
                         </div>
                     </div>
                 </div>
-                <Profile
-                    imgUrl={this.state.imgUrl || "user.png"}
-                    firstName={this.state.firstName}
-                    lastName={this.state.lastName}
-                />
                 <div
                     className="absolute bg-purple-100 bg-opacity-50 backdrop-filter backdrop-blur-sm h-screen w-screen duration-200"
                     style={{
@@ -72,6 +67,11 @@ export default class App extends Component {
                 ></div>
 
                 <div className="lg:w-4/5 md:w-2/3 flex items-center justify-center">
+                    <Profile
+                        imgUrl={this.state.imgUrl || "user.png"}
+                        firstName={this.state.firstName}
+                        lastName={this.state.lastName}
+                    />
                     {this.state.uploaderIsVisible && (
                         <Uploader
                             updateProfileImage={this.updateProfileImage}
