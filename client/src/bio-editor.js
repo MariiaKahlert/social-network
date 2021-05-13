@@ -21,6 +21,10 @@ export default class BioEditor extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        if (!this.state.draftBio) {
+            this.toggleTextArea();
+            return;
+        }
         axios
             .post("/update-bio", {
                 bio: this.state.draftBio,
@@ -88,7 +92,7 @@ export default class BioEditor extends Component {
                         <button
                             type="button"
                             onClick={this.toggleTextArea}
-                            className="mt-4 text-purple-500 hover:text-purple-200 duration-200"
+                            className="mt-4 text-gray-700 hover:text-black hover:underline duration-200"
                         >
                             Cancel
                         </button>

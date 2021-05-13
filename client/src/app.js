@@ -64,7 +64,15 @@ export default class App extends Component {
                             />
                         </div>
                         <div className="mt-14">
-                            <p className="text-white text-lg">My profile</p>
+                            <p className="mb-8 text-white text-lg">
+                                My profile
+                            </p>
+                            <a
+                                href="/logout"
+                                className="text-purple-200 text-lg hover:text-white hover:underline duration-200"
+                            >
+                                Log out
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -78,22 +86,31 @@ export default class App extends Component {
                         setBio={this.setBio}
                         defaultImg={this.state.imgUrl === null}
                     />
-                    {this.state.uploaderIsVisible && (
-                        <Uploader
-                            updateProfileImage={this.updateProfileImage}
-                            toggleUploader={this.toggleUploader}
-                        />
-                    )}
                 </div>
-
                 <div
                     className="absolute bg-purple-100 bg-opacity-50 backdrop-filter backdrop-blur-sm h-screen w-screen duration-200"
                     style={{
                         opacity: this.state.uploaderIsVisible ? 1 : 0,
-                        zIndex: this.state.uploaderIsVisible ? "auto" : -1,
+                        zIndex: this.state.uploaderIsVisible ? 10 : -1,
                     }}
                     onClick={this.toggleUploader}
                 ></div>
+                <div
+                    className="absolute h-screen w-screen flex"
+                    style={{
+                        zIndex: this.state.uploaderIsVisible ? "auto" : -1,
+                    }}
+                >
+                    <div className="lg:w-1/5 md:w-1/3"></div>
+                    <div className="lg:w-4/5 md:w-2/3 flex items-center justify-center">
+                        {this.state.uploaderIsVisible && (
+                            <Uploader
+                                updateProfileImage={this.updateProfileImage}
+                                toggleUploader={this.toggleUploader}
+                            />
+                        )}
+                    </div>
+                </div>
             </div>
         );
     }

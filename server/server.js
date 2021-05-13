@@ -53,6 +53,12 @@ app.get("/welcome", (req, res) => {
 // Registration and login
 require("./routes/auth");
 
+// Logout
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/welcome#/login");
+});
+
 // Password reset
 require("./routes/password-reset");
 

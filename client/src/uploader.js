@@ -33,7 +33,7 @@ export default class Uploader extends Component {
 
     render() {
         return (
-            <form className="absolute flex flex-col justify-center z-10 bg-purple-500 md:w-4/5 lg:w-2/5 h-3/5 px-6 pt-8 pb-6 shadow-lg rounded-lg">
+            <form className="flex flex-col justify-center z-20 bg-purple-500 md:w-4/5 lg:w-2/5 h-3/5 px-6 pt-8 pb-6 shadow-lg rounded-lg">
                 <h2 className="text-center text-white mb-6 text-xl">
                     Upload a profile picture
                 </h2>
