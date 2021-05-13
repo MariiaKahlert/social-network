@@ -1,7 +1,7 @@
 import { Component } from "react";
-import ProfilePicture from "./profile-picture";
-import Uploader from "./uploader";
-import Profile from "./profile";
+import ProfilePicture from "./components/profile-picture";
+import Uploader from "./components/uploader";
+import Profile from "./components/profile";
 import axios from "./axios";
 
 export default class App extends Component {
