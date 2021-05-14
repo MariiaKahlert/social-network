@@ -1,7 +1,9 @@
 import { Component } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
 import ProfilePicture from "./components/profile-picture";
 import Uploader from "./components/uploader";
 import Profile from "./components/profile";
+import OtherProfile from "./components/other-profile";
 import axios from "./axios";
 
 export default class App extends Component {
@@ -78,14 +80,23 @@ export default class App extends Component {
                 </div>
 
                 <div className="relative lg:w-4/5 md:w-2/3 py-16 flex justify-center">
-                    <Profile
-                        imgUrl={this.state.imgUrl || "user.png"}
-                        firstName={this.state.firstName}
-                        lastName={this.state.lastName}
-                        bio={this.state.bio}
-                        setBio={this.setBio}
-                        defaultImg={this.state.imgUrl === null}
-                    />
+                    <BrowserRouter>
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    imgUrl={this.state.imgUrl || "user.png"}
+                                    firstName={this.state.firstName}
+                                    lastName={this.state.lastName}
+                                    bio={this.state.bio}
+                                    setBio={this.setBio}
+                                    defaultImg={this.state.imgUrl === null}
+                                />
+                            )}
+                        ></Route>
+                        <Route path="/user/:id" component={OtherProfile} />
+                    </BrowserRouter>
                 </div>
                 <div
                     className="absolute bg-purple-100 bg-opacity-50 backdrop-filter backdrop-blur-sm h-screen w-screen duration-200"

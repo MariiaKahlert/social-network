@@ -66,9 +66,15 @@ require("./routes/password-reset");
 app.get("/user", (req, res) => {
     const { userId } = req.session;
     getUserInfo(userId)
-        .then((result) => {
-            res.json(result.rows[0]);
-        })
+        .then((result) => res.json(result.rows[0]))
+        .catch((err) => console.log(err));
+});
+
+app.get("/other-user/:id", (req, res) => {
+    // console.log(req.params.id);
+    const { id } = req.params;
+    getUserInfo(id)
+        .then((result) => res.json(result.rows[0]))
         .catch((err) => console.log(err));
 });
 
