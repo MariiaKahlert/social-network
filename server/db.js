@@ -37,7 +37,8 @@ module.exports.updateUser = (passwordHash, email) => {
 module.exports.getUserInfo = (userId) => {
     return db.query(
         `
-            SELECT * FROM users
+            SELECT first_name, last_name, img_url, bio
+            FROM users
             WHERE id = $1
         `,
         [userId]

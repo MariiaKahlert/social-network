@@ -14,6 +14,7 @@ export default class OtherProfile extends Component {
         axios
             .get(`/other-user/${id}`)
             .then((response) => {
+                console.log(response);
                 this.setState({
                     firstName: response.data["first_name"],
                     lastName: response.data["last_name"],
@@ -21,7 +22,10 @@ export default class OtherProfile extends Component {
                     bio: response.data["bio"],
                 });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err);
+                this.props.history.push("/");
+            });
     }
 
     render() {
@@ -35,6 +39,9 @@ export default class OtherProfile extends Component {
                         inProfile={true}
                         defaultImg={this.state.imgUrl === null}
                     />
+                </div>
+                <div className="flex flex-col flex-grow py-12 md:w-3/5 lg:w-2/5">
+                    <p className="flex-grow text-center">{this.state.bio}</p>
                 </div>
             </div>
         );
