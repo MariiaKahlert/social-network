@@ -16,45 +16,41 @@ export default class PasswordReset extends Component {
         });
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
         this.setState({
             error: null,
         });
         if (this.state.view === 1) {
-            axios
-                .post("/password/reset/start", {
+            try {
+                await axios.post("/password/reset/start", {
                     email: this.state["email"],
-                })
-                .then(() => {
-                    this.setState({
-                        view: 2,
-                    });
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.setState({
-                        error: "Something went wrong. Please, try again.",
-                    });
                 });
+                this.setState({
+                    view: 2,
+                });
+            } catch (err) {
+                console.log(err);
+                this.setState({
+                    error: "Something went wrong. Please, try again.",
+                });
+            }
         } else if (this.state.view === 2) {
-            axios
-                .post("/password/reset/verify", {
+            try {
+                await axios.post("/password/reset/verify", {
                     email: this.state["email"],
                     password: this.state["password"],
                     code: this.state["verification-code"],
-                })
-                .then(() => {
-                    this.setState({
-                        view: 3,
-                    });
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.setState({
-                        error: "Something went wrong. Please, try again.",
-                    });
                 });
+                this.setState({
+                    view: 3,
+                });
+            } catch (err) {
+                console.log(err);
+                this.setState({
+                    error: "Something went wrong. Please, try again.",
+                });
+            }
         }
     }
 

@@ -24,20 +24,19 @@ const uploader = multer({
     },
 });
 
-app.post("/upload", uploader.single("file"), upload, (req, res) => {
+app.post("/upload", uploader.single("file"), upload, async (req, res) => {
     if (req.file) {
         const { filename } = req.file;
         const { userId } = req.session;
         const fullUrl = s3Url + filename;
-        updateImgUrl(fullUrl, userId)
-            .then((result) => {
-                res.json(result.rows[0]);
-            })
-            .catch((err) => {
-                console.log(err);
-                res.status(500).json({
-                    error: "Error in /upload route",
-                });
+        try {
+            const result = await updateImgUrl(fullUrl, userId);
+            res.json(result.rows[0]);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({
+                error: "Error in /upload route",
             });
+        }
     }
 });

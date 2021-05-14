@@ -14,22 +14,20 @@ export default class Login extends Component {
         });
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
-        axios
-            .post("/login", {
+        try {
+            await axios.post("/login", {
                 email: this.state["login-email"],
                 password: this.state["login-password"],
-            })
-            .then(() => {
-                location.replace("/");
-            })
-            .catch((err) => {
-                console.log(err);
-                this.setState({
-                    error: "Something went wrong. Please, try again.",
-                });
             });
+            location.replace("/");
+        } catch (err) {
+            console.log(err);
+            this.setState({
+                error: "Something went wrong. Please, try again.",
+            });
+        }
     }
 
     render() {

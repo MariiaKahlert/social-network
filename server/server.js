@@ -1,4 +1,4 @@
-const { getUserInfo, updateBio } = require("./db");
+const { updateBio } = require("./db");
 
 const express = require("express");
 const app = express();
@@ -63,14 +63,18 @@ require("./routes/user-info");
 require("./routes/uploader");
 
 // Bio update
-app.post("/update-bio", (req, res) => {
+app.post("/update-bio", async (req, res) => {
     const { bio } = req.body;
     const { userId } = req.session;
-    updateBio(bio, userId)
-        .then((result) => {
-            res.json(result.rows[0]);
-        })
-        .catch((err) => console.log(err));
+    try {
+        const result = await updateBio(bio, userId);
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: "Error in /update-bio route",
+        });
+    }
 });
 
 app.get("*", function (req, res) {

@@ -19,22 +19,22 @@ export default class BioEditor extends Component {
         });
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
         if (!this.state.draftBio) {
             this.toggleTextArea();
             return;
         }
-        axios
-            .post("/update-bio", {
+        try {
+            const response = await axios.post("/update-bio", {
                 bio: this.state.draftBio,
-            })
-            .then((response) => {
-                const { bio } = response.data;
-                this.props.setBio(bio);
-                this.toggleTextArea();
-            })
-            .catch((err) => console.log(err));
+            });
+            const { bio } = response.data;
+            this.props.setBio(bio);
+            this.toggleTextArea();
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     toggleTextArea() {

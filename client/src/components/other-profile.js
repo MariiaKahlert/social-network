@@ -8,24 +8,20 @@ export default class OtherProfile extends Component {
         this.state = {};
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const { id } = this.props.match.params;
-        console.log(id);
-        axios
-            .get(`/other-user/${id}`)
-            .then((response) => {
-                console.log(response);
-                this.setState({
-                    firstName: response.data["first_name"],
-                    lastName: response.data["last_name"],
-                    imgUrl: response.data["img_url"],
-                    bio: response.data["bio"],
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-                this.props.history.push("/");
+        try {
+            const response = await axios.get(`/other-user/${id}`);
+            this.setState({
+                firstName: response.data["first_name"],
+                lastName: response.data["last_name"],
+                imgUrl: response.data["img_url"],
+                bio: response.data["bio"],
             });
+        } catch (err) {
+            console.log(err);
+            this.props.history.push("/");
+        }
     }
 
     render() {

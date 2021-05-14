@@ -14,27 +14,25 @@ export default class Registration extends Component {
         });
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
         this.setState({
             error: null,
         });
-        axios
-            .post("/registration", {
+        try {
+            await axios.post("/registration", {
                 firstName: this.state["register-first"],
                 lastName: this.state["register-last"],
                 email: this.state["register-email"],
                 password: this.state["register-password"],
-            })
-            .then(() => {
-                location.replace("/");
-            })
-            .catch((err) => {
-                console.log(err);
-                this.setState({
-                    error: "Something went wrong. Please, try again.",
-                });
             });
+            location.replace("/");
+        } catch (err) {
+            console.log(err);
+            this.setState({
+                error: "Something went wrong. Please, try again.",
+            });
+        }
     }
 
     render() {

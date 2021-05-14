@@ -1,14 +1,20 @@
 const { app } = require("../server");
 const { getUserInfo } = require("../db");
 
-app.get("/user", (req, res) => {
+app.get("/user", async (req, res) => {
     const { userId } = req.session;
-    getUserInfo(userId)
-        .then((result) => res.json(result.rows[0]))
-        .catch((err) => console.log(err));
+    try {
+        const result = await getUserInfo(userId);
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: "Error in /user route",
+        });
+    }
 });
 
-app.get("/other-user/:id", (req, res) => {
+app.get("/other-user/:id", async (req, res) => {
     const { id } = req.params;
     if (parseInt(id) === req.session.userId) {
         res.status(400).json({
@@ -16,15 +22,19 @@ app.get("/other-user/:id", (req, res) => {
         });
         return;
     }
-    getUserInfo(id)
-        .then((result) => {
-            if (result.rows.length === 0) {
-                res.status(400).json({
-                    error: "The user does not exist",
-                });
-                return;
-            }
-            res.json(result.rows[0]);
-        })
-        .catch((err) => console.log(err));
+    try {
+        const result = await getUserInfo(id);
+        if (result.rows.length === 0) {
+            res.status(400).json({
+                error: "The user does not exist",
+            });
+            return;
+        }
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: "Error in /other-user/:id route",
+        });
+    }
 });

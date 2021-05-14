@@ -17,18 +17,18 @@ export default class App extends Component {
         this.setBio = this.setBio.bind(this);
     }
 
-    componentDidMount() {
-        axios
-            .get("/user")
-            .then((response) => {
-                this.setState({
-                    firstName: response.data["first_name"],
-                    lastName: response.data["last_name"],
-                    imgUrl: response.data["img_url"],
-                    bio: response.data["bio"],
-                });
-            })
-            .catch((err) => console.log(err));
+    async componentDidMount() {
+        try {
+            const response = await axios.get("/user");
+            this.setState({
+                firstName: response.data["first_name"],
+                lastName: response.data["last_name"],
+                imgUrl: response.data["img_url"],
+                bio: response.data["bio"],
+            });
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     toggleUploader() {
@@ -58,7 +58,7 @@ export default class App extends Component {
                         <h1 className="font-bold text-2xl">CONNECT</h1>
                         <div className="flex items-center mt-8">
                             <ProfilePicture
-                                imgUrl={this.state.imgUrl || "user.png"}
+                                imgUrl={this.state.imgUrl || "/user.png"}
                                 firstName={this.state.firstName}
                                 lastName={this.state.lastName}
                                 toggleUploader={this.toggleUploader}
@@ -86,7 +86,7 @@ export default class App extends Component {
                             path="/"
                             render={() => (
                                 <Profile
-                                    imgUrl={this.state.imgUrl || "user.png"}
+                                    imgUrl={this.state.imgUrl || "/user.png"}
                                     firstName={this.state.firstName}
                                     lastName={this.state.lastName}
                                     bio={this.state.bio}

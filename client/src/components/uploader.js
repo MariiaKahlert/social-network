@@ -13,22 +13,20 @@ export default class Uploader extends Component {
         });
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
         const formData = new FormData();
         formData.append("file", this.state.file);
-        axios
-            .post("/upload", formData)
-            .then((response) => {
-                const { img_url } = response.data;
-                this.props.updateProfileImage(img_url);
-            })
-            .catch((err) => {
-                console.log(err);
-                this.setState({
-                    error: "Something went wrong. Please, try again.",
-                });
+        try {
+            const response = await axios.post("/upload", formData);
+            const { img_url } = response.data;
+            this.props.updateProfileImage(img_url);
+        } catch (err) {
+            console.log(err);
+            this.setState({
+                error: "Something went wrong. Please, try again.",
             });
+        }
     }
 
     render() {
