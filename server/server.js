@@ -50,14 +50,8 @@ app.get("/welcome", (req, res) => {
     }
 });
 
-// Registration and login
+// Registration, login and logout
 require("./routes/auth");
-
-// Logout
-app.get("/logout", (req, res) => {
-    req.session = null;
-    res.redirect("/welcome#/login");
-});
 
 // Password reset
 require("./routes/password-reset");

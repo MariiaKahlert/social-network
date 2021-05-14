@@ -60,3 +60,8 @@ app.post("/login", (req, res) => {
             });
         });
 });
+
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/welcome#/login");
+});
