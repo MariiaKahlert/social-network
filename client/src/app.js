@@ -103,31 +103,61 @@ export default class App extends Component {
                                             </Link>
                                         </div>
 
+                                        <div className="mb-4 flex items-center">
+                                            {location.pathname ===
+                                                "/friends" && (
+                                                <img
+                                                    src="/active-friends.png"
+                                                    className="h-4"
+                                                ></img>
+                                            )}
+                                            {location.pathname !==
+                                                "/friends" && (
+                                                <img
+                                                    src="/inactive-friends.png"
+                                                    className="h-4"
+                                                ></img>
+                                            )}
+
+                                            <Link
+                                                to="#"
+                                                className={
+                                                    "text-lg ml-4 " +
+                                                    (location.pathname ===
+                                                    "/friends"
+                                                        ? "text-white font-bold"
+                                                        : "text-purple-200")
+                                                }
+                                            >
+                                                Friends
+                                            </Link>
+                                        </div>
+
                                         <div className="mb-8 flex items-center">
                                             {location.pathname === "/users" && (
                                                 <img
-                                                    src="/active-people.png"
-                                                    className="h-4"
+                                                    src="/active-community.png"
+                                                    className="h-5"
                                                 ></img>
                                             )}
                                             {location.pathname !== "/users" && (
                                                 <img
-                                                    src="/inactive-people.png"
-                                                    className="h-4"
+                                                    src="/inactive-community.png"
+                                                    className="h-5"
                                                 ></img>
                                             )}
 
                                             <Link
                                                 to="/users"
                                                 className={
-                                                    "text-lg ml-4 " +
+                                                    "text-lg ml-3 " +
                                                     (location.pathname ===
                                                     "/users"
                                                         ? "text-white font-bold"
                                                         : "text-purple-200")
                                                 }
                                             >
-                                                People
+                                                Community
                                             </Link>
                                         </div>
 
