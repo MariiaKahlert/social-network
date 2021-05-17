@@ -58,7 +58,12 @@ export default function FindPeople() {
                             <div className="flex items-center w-full h-28 mt-12 bg-white shadow-lg rounded-lg">
                                 <img
                                     src={person["img_url"] || "/user.png"}
-                                    className={"h-16 ml-8 rounded-lg bg-white "}
+                                    className={
+                                        "h-16 ml-8 rounded-lg bg-white " +
+                                        (person["img_url"] === null
+                                            ? "border-2 border-purple-200 p-2"
+                                            : "")
+                                    }
                                 ></img>
                                 <h3 className="ml-4 font-bold">
                                     {person["first_name"]} {person["last_name"]}
