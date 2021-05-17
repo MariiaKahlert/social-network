@@ -6,11 +6,9 @@ export default function FindPeople() {
     const [people, setPeople] = useState([]);
 
     useEffect(() => {
-        console.log("useEffect just ran!");
         let ignore = false;
         (async () => {
             try {
-                console.log(searchInput);
                 if (!searchInput) {
                     const response = await axios.get("/find-users");
                     if (!ignore) {
@@ -37,18 +35,35 @@ export default function FindPeople() {
         setSearchInput(e.target.value);
     };
     return (
-        <>
-            <input onChange={handleChange}></input>
-            {people.map((person, index) => {
-                return (
-                    <div key={index}>
-                        <img src={person["img_url"] || "/user.png"}></img>
-                        <h3>
-                            {person["first_name"]} {person["last_name"]}
-                        </h3>
-                    </div>
-                );
-            })}
-        </>
+        <div className="lg:w-2/5 md:w-2/3 flex flex-col justify-center items-center">
+            <div className="flex items-center bg-white rounded">
+                <img src="/search.png" className="h-4 ml-6"></img>
+                <input
+                    type="text"
+                    onChange={handleChange}
+                    className="rounded py-2 px-4 outline-none"
+                    placeholder="Search..."
+                ></input>
+            </div>
+
+            <div className="w-full flex-grow">
+                {people.map((person, index) => {
+                    return (
+                        <div
+                            key={index}
+                            className="flex items-center w-full h-28 mt-12 bg-white shadow-lg rounded-lg"
+                        >
+                            <img
+                                src={person["img_url"] || "/user.png"}
+                                className={"h-16 ml-8 rounded-lg bg-white "}
+                            ></img>
+                            <h3 className="ml-4 font-bold">
+                                {person["first_name"]} {person["last_name"]}
+                            </h3>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
     );
 }

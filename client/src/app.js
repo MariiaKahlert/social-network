@@ -67,9 +67,24 @@ export default class App extends Component {
                             />
                         </div>
                         <div className="mt-14">
-                            <p className="mb-8 text-white text-lg">
-                                My profile
-                            </p>
+                            <div className="mb-4 flex items-center">
+                                <img src="/profile.png" className="h-4"></img>
+                                <a href="/" className="text-white text-lg ml-4">
+                                    My profile
+                                </a>
+                            </div>
+
+                            <div className="mb-8 flex items-center">
+                                <img src="/people.png" className="h-4"></img>
+
+                                <a
+                                    href="/users"
+                                    className="text-white text-lg ml-4"
+                                >
+                                    People
+                                </a>
+                            </div>
+
                             <a
                                 href="/logout"
                                 className="text-purple-200 text-lg hover:text-white hover:underline duration-200"
@@ -79,11 +94,7 @@ export default class App extends Component {
                         </div>
                     </div>
                 </div>
-                <div>
-                    <BrowserRouter>
-                        <Route path="/users" component={FindPeople} />
-                    </BrowserRouter>
-                </div>
+
                 <div className="relative lg:w-4/5 md:w-2/3 py-16 flex justify-center">
                     <BrowserRouter>
                         <Route
@@ -101,6 +112,7 @@ export default class App extends Component {
                             )}
                         ></Route>
                         <Route path="/user/:id" component={OtherProfile} />
+                        <Route path="/users" component={FindPeople} />
                     </BrowserRouter>
                 </div>
                 <div
