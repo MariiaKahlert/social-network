@@ -22,6 +22,17 @@ module.exports.selectUser = (email) => {
     );
 };
 
+module.exports.selectUsers = () => {
+    return db.query(
+        `
+            SELECT first_name, last_name, img_url
+            FROM users
+            ORDER BY id DESC
+            LIMIT 3
+        `
+    );
+};
+
 module.exports.updateUser = (passwordHash, email) => {
     return db.query(
         `

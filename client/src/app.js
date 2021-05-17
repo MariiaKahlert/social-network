@@ -4,6 +4,7 @@ import ProfilePicture from "./components/profile-picture";
 import Uploader from "./components/uploader";
 import Profile from "./components/profile";
 import OtherProfile from "./components/other-profile";
+import FindPeople from "./components/find-people";
 import axios from "./axios";
 
 export default class App extends Component {
@@ -78,7 +79,11 @@ export default class App extends Component {
                         </div>
                     </div>
                 </div>
-
+                <div>
+                    <BrowserRouter>
+                        <Route path="/users" component={FindPeople} />
+                    </BrowserRouter>
+                </div>
                 <div className="relative lg:w-4/5 md:w-2/3 py-16 flex justify-center">
                     <BrowserRouter>
                         <Route

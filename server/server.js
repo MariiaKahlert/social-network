@@ -1,4 +1,4 @@
-const { updateBio } = require("./db");
+const { updateBio, selectUsers } = require("./db");
 
 const express = require("express");
 const app = express();
@@ -73,6 +73,19 @@ app.post("/update-bio", async (req, res) => {
         console.log(err);
         res.status(500).json({
             error: "Error in /update-bio route",
+        });
+    }
+});
+
+// Find users
+app.get("/users", async (req, res) => {
+    try {
+        const result = await selectUsers();
+        res.json(result.rows);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: "Error in /users route",
         });
     }
 });
