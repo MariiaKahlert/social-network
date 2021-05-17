@@ -33,6 +33,17 @@ module.exports.selectUsers = () => {
     );
 };
 
+module.exports.selectUsersWithSearchInput = (searchInput) => {
+    return db.query(
+        `
+            SELECT first_name, last_name, img_url
+            FROM users
+            WHERE first_name ILIKE $1
+        `,
+        [`${searchInput}%`]
+    );
+};
+
 module.exports.updateUser = (passwordHash, email) => {
     return db.query(
         `

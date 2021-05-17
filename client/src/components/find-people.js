@@ -7,25 +7,48 @@ export default function FindPeople() {
 
     useEffect(() => {
         console.log("useEffect just ran!");
+        let ignore = false;
         (async () => {
             try {
-                const response = await axios.get("/users");
-                console.log(response);
+                console.log(searchInput);
+                if (!searchInput) {
+                    const response = await axios.get("/find-users");
+                    if (!ignore) {
+                        setPeople(response.data);
+                    }
+                } else {
+                    const response = await axios.post("/find-users", {
+                        searchInput: searchInput,
+                    });
+                    if (!ignore) {
+                        setPeople(response.data);
+                    }
+                }
             } catch (err) {
                 console.log(err);
             }
         })();
-    }, []);
+        return () => {
+            ignore = true;
+        };
+    }, [searchInput]);
 
     const handleChange = (e) => {
-        console.log("User is typing in input field");
         setSearchInput(e.target.value);
     };
     return (
         <>
-            <h1>FindPeople component</h1>
             <input onChange={handleChange}></input>
-            <p>{searchInput}</p>
+            {people.map((person, index) => {
+                return (
+                    <div key={index}>
+                        <img src={person["img_url"] || "/user.png"}></img>
+                        <h3>
+                            {person["first_name"]} {person["last_name"]}
+                        </h3>
+                    </div>
+                );
+            })}
         </>
     );
 }

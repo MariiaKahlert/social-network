@@ -1,4 +1,4 @@
-const { updateBio, selectUsers } = require("./db");
+const { updateBio } = require("./db");
 
 const express = require("express");
 const app = express();
@@ -78,17 +78,7 @@ app.post("/update-bio", async (req, res) => {
 });
 
 // Find users
-app.get("/users", async (req, res) => {
-    try {
-        const result = await selectUsers();
-        res.json(result.rows);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            error: "Error in /users route",
-        });
-    }
-});
+require("./routes/users-search");
 
 app.get("*", function (req, res) {
     if (!req.session.userId) {
