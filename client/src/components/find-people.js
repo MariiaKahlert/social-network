@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "../axios";
 
 export default function FindPeople() {
@@ -45,22 +46,25 @@ export default function FindPeople() {
                     placeholder="Search..."
                 ></input>
             </div>
-
+            {!searchInput && (
+                <p className="text-purple-300 mt-8">
+                    People who recently joined
+                </p>
+            )}
             <div className="w-full flex-grow">
                 {people.map((person, index) => {
                     return (
-                        <div
-                            key={index}
-                            className="flex items-center w-full h-28 mt-12 bg-white shadow-lg rounded-lg"
-                        >
-                            <img
-                                src={person["img_url"] || "/user.png"}
-                                className={"h-16 ml-8 rounded-lg bg-white "}
-                            ></img>
-                            <h3 className="ml-4 font-bold">
-                                {person["first_name"]} {person["last_name"]}
-                            </h3>
-                        </div>
+                        <Link key={index} to={`/user/${person.id}`}>
+                            <div className="flex items-center w-full h-28 mt-12 bg-white shadow-lg rounded-lg">
+                                <img
+                                    src={person["img_url"] || "/user.png"}
+                                    className={"h-16 ml-8 rounded-lg bg-white "}
+                                ></img>
+                                <h3 className="ml-4 font-bold">
+                                    {person["first_name"]} {person["last_name"]}
+                                </h3>
+                            </div>
+                        </Link>
                     );
                 })}
             </div>

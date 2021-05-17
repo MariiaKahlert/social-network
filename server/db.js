@@ -25,7 +25,7 @@ module.exports.selectUser = (email) => {
 module.exports.selectUsers = () => {
     return db.query(
         `
-            SELECT first_name, last_name, img_url
+            SELECT id, first_name, last_name, img_url
             FROM users
             ORDER BY id DESC
             LIMIT 3
@@ -36,7 +36,7 @@ module.exports.selectUsers = () => {
 module.exports.selectUsersWithSearchInput = (searchInput) => {
     return db.query(
         `
-            SELECT first_name, last_name, img_url
+            SELECT id, first_name, last_name, img_url
             FROM users
             WHERE first_name ILIKE $1
         `,

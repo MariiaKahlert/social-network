@@ -20,8 +20,12 @@ export default function ProfilePicture({
                         }
                     ></img>
                     <div className="ml-4">
-                        <p className="text-lg text-white">{firstName}</p>
-                        <p className="text-lg text-white">{lastName}</p>
+                        <p className="text-lg text-white font-bold">
+                            {firstName}
+                        </p>
+                        <p className="text-lg text-white font-bold">
+                            {lastName}
+                        </p>
                     </div>
                 </>
             )}
