@@ -47,15 +47,18 @@ export default function FindPeople() {
                 ></input>
             </div>
             {!searchInput && (
-                <p className="text-purple-300 mt-8">
+                <p className="text-purple-300 mt-10">
                     People who recently joined
                 </p>
             )}
-            <div className="w-full flex-grow">
+            <div
+                className="w-full flex-grow overflow-y-auto mt-8"
+                style={{ height: "60vh" }}
+            >
                 {people.map((person, index) => {
                     return (
                         <Link key={index} to={`/user/${person.id}`}>
-                            <div className="flex items-center w-full h-28 mt-12 bg-white shadow-lg rounded-lg">
+                            <div className="flex items-center w-full h-28 mt-10 bg-white shadow-lg rounded-lg">
                                 <img
                                     src={person["img_url"] || "/user.png"}
                                     className={
