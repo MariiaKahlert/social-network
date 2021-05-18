@@ -13,7 +13,7 @@ export default function Menu() {
                 <Link
                     to="/"
                     className={
-                        "text-lg ml-4 " +
+                        "text-lg ml-4 hover:text-white duration-200 " +
                         (location.pathname === "/"
                             ? "text-white font-bold"
                             : "text-purple-200")
@@ -34,7 +34,7 @@ export default function Menu() {
                 <Link
                     to="/connections"
                     className={
-                        "text-lg ml-4 " +
+                        "text-lg ml-4 hover:text-white duration-200 " +
                         (location.pathname === "/connections"
                             ? "text-white font-bold"
                             : "text-purple-200")
@@ -55,7 +55,7 @@ export default function Menu() {
                 <Link
                     to="/users"
                     className={
-                        "text-lg ml-3 " +
+                        "text-lg ml-3 hover:text-white duration-200 " +
                         (location.pathname === "/users"
                             ? "text-white font-bold"
                             : "text-purple-200")
@@ -65,12 +65,15 @@ export default function Menu() {
                 </Link>
             </div>
 
-            <a
-                href="/logout"
-                className="text-purple-200 text-lg hover:text-white hover:underline duration-200"
-            >
-                Log out
-            </a>
+            <div className="mb-8 flex items-center">
+                <img src="/inactive-logout.png" className="h-5"></img>
+                <a
+                    href="/logout"
+                    className="ml-3 text-purple-200 text-lg hover:text-white hover:underline duration-200"
+                >
+                    Log out
+                </a>
+            </div>
         </div>
     );
 }
