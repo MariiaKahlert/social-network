@@ -1,6 +1,7 @@
 const {
     updateBio,
     getConnectionStatus,
+    insertConnection,
     updateConnectionStatus,
 } = require("./db");
 
@@ -124,14 +125,13 @@ app.get("/connection-status", async (req, res) => {
 
 app.post("/connection-status", async (req, res) => {
     console.log(req.body);
-    const { userId: senderId } = req.session;
-    const { btnText, recipientId } = req.body;
+    const { userId: loggedInUsed } = req.session;
+    const { btnText, otherUser } = req.body;
     try {
         if (btnText === "Connect") {
-            const result = await updateConnectionStatus(senderId, recipientId);
-            console.log(result);
+            const result = await insertConnection(loggedInUsed, otherUser);
             if (!result.rows[0].accepted) {
-                if (result.rows[0].recipient_id === senderId) {
+                if (result.rows[0].recipient_id === loggedInUsed) {
                     res.status(200).json({
                         btnText: "Accept",
                     });
@@ -140,6 +140,21 @@ app.post("/connection-status", async (req, res) => {
                         btnText: "Cancel",
                     });
                 }
+            }
+            return;
+        }
+
+        if (btnText === "Accept") {
+            const result = await updateConnectionStatus(
+                loggedInUsed,
+                otherUser
+            );
+            console.log(result);
+            if (result.rows[0].accepted) {
+                res.status(200).json({
+                    btnText: "Disconnect",
+                });
+                return;
             }
         }
     } catch (err) {

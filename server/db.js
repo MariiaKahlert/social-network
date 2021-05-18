@@ -115,24 +115,37 @@ module.exports.updateBio = (bio, userId) => {
     );
 };
 
-module.exports.getConnectionStatus = (senderId, recipientId) => {
+module.exports.getConnectionStatus = (loggedInUser, otherUser) => {
     return db.query(
         `
             SELECT * FROM connections
             WHERE (recipient_id = $1 AND sender_id = $2)
             OR (recipient_id = $2 AND sender_id = $1)
         `,
-        [senderId, recipientId]
+        [loggedInUser, otherUser]
     );
 };
 
-module.exports.updateConnectionStatus = (senderId, recipientId) => {
+module.exports.insertConnection = (loggedInUser, otherUser) => {
     return db.query(
         `
             INSERT INTO connections (sender_id, recipient_id)
             VALUES ($1, $2)
             RETURNING *
         `,
-        [senderId, recipientId]
+        [loggedInUser, otherUser]
+    );
+};
+
+module.exports.updateConnectionStatus = (loggedInUser, otherUser) => {
+    return db.query(
+        `
+            UPDATE connections
+            SET accepted = 'true'
+            WHERE sender_id = $2
+            AND recipient_id = $1
+            RETURNING *
+        `,
+        [loggedInUser, otherUser]
     );
 };

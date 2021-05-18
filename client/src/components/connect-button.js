@@ -22,7 +22,7 @@ export default function ConnectButton({ userId }) {
         try {
             const { data } = await axios.post("/connection-status", {
                 btnText: buttonText,
-                recipientId: userId,
+                otherUser: userId,
             });
             setButtonText(data.btnText);
         } catch (err) {
