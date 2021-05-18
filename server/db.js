@@ -149,3 +149,14 @@ module.exports.updateConnectionStatus = (loggedInUser, otherUser) => {
         [loggedInUser, otherUser]
     );
 };
+
+module.exports.deleteConnection = (loggedInUser, otherUser) => {
+    return db.query(
+        `
+            DELETE FROM connections
+            WHERE (recipient_id = $1 AND sender_id = $2)
+            OR (recipient_id = $2 AND sender_id = $1)
+        `,
+        [loggedInUser, otherUser]
+    );
+};

@@ -3,6 +3,7 @@ const {
     getConnectionStatus,
     insertConnection,
     updateConnectionStatus,
+    deleteConnection,
 } = require("./db");
 
 const express = require("express");
@@ -124,7 +125,6 @@ app.get("/connection-status", async (req, res) => {
 });
 
 app.post("/connection-status", async (req, res) => {
-    console.log(req.body);
     const { userId: loggedInUsed } = req.session;
     const { btnText, otherUser } = req.body;
     try {
@@ -149,13 +149,22 @@ app.post("/connection-status", async (req, res) => {
                 loggedInUsed,
                 otherUser
             );
-            console.log(result);
             if (result.rows[0].accepted) {
                 res.status(200).json({
                     btnText: "Disconnect",
                 });
-                return;
             }
+            return;
+        }
+
+        if (btnText === "Disconnect" || btnText === "Cancel") {
+            const result = await deleteConnection(loggedInUsed, otherUser);
+            if (result.rows.length === 0) {
+                res.status(200).json({
+                    btnText: "Connect",
+                });
+            }
+            return;
         }
     } catch (err) {
         console.log(err);
