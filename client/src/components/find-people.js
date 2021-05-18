@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "../axios";
 
-export default function FindPeople() {
+export default function FindPeople(props) {
     const [searchInput, setSearchInput] = useState("");
     const [people, setPeople] = useState([]);
 
@@ -68,9 +68,15 @@ export default function FindPeople() {
                                             : "")
                                     }
                                 ></img>
-                                <h3 className="ml-4 font-bold">
-                                    {person["first_name"]} {person["last_name"]}
-                                </h3>
+                                <div className="ml-4">
+                                    <h3 className="font-bold">
+                                        {person["first_name"]}{" "}
+                                        {person["last_name"]}
+                                    </h3>
+                                    {props.loggedInUserId === person.id && (
+                                        <p className="text-gray-700">You</p>
+                                    )}
+                                </div>
                             </div>
                         </Link>
                     );

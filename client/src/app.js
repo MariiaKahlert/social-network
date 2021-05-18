@@ -23,10 +23,11 @@ export default class App extends Component {
         try {
             const response = await axios.get("/user");
             this.setState({
-                firstName: response.data["first_name"],
-                lastName: response.data["last_name"],
-                imgUrl: response.data["img_url"],
-                bio: response.data["bio"],
+                id: response.data.id,
+                firstName: response.data.first_name,
+                lastName: response.data.last_name,
+                imgUrl: response.data.img_url,
+                bio: response.data.bio,
             });
         } catch (err) {
             console.log(err);
@@ -98,7 +99,12 @@ export default class App extends Component {
                             )}
                         ></Route>
                         <Route path="/user/:id" component={OtherProfile} />
-                        <Route path="/users" component={FindPeople} />
+                        <Route
+                            path="/users"
+                            render={() => (
+                                <FindPeople loggedInUserId={this.state.id} />
+                            )}
+                        ></Route>
                     </div>
 
                     {/* Overlay and modal */}

@@ -39,6 +39,7 @@ module.exports.selectUsersWithSearchInput = (searchInput) => {
             SELECT id, first_name, last_name, img_url
             FROM users
             WHERE first_name ILIKE $1
+            ORDER BY first_name ASC
         `,
         [`${searchInput}%`]
     );
@@ -59,7 +60,7 @@ module.exports.updateUser = (passwordHash, email) => {
 module.exports.getUserInfo = (userId) => {
     return db.query(
         `
-            SELECT first_name, last_name, img_url, bio
+            SELECT id, first_name, last_name, img_url, bio
             FROM users
             WHERE id = $1
         `,
