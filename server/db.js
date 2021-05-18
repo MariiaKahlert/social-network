@@ -114,3 +114,14 @@ module.exports.updateBio = (bio, userId) => {
         [bio, userId]
     );
 };
+
+module.exports.getConnectionStatus = (senderId, recipientId) => {
+    return db.query(
+        `
+            SELECT * FROM connections
+            WHERE (recipient_id = $1 AND sender_id = $2)
+            OR (recipient_id = $2 AND sender_id = $1)
+        `,
+        [senderId, recipientId]
+    );
+};

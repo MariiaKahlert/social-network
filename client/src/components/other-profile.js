@@ -1,5 +1,6 @@
 import { Component } from "react";
 import ProfilePicture from "../components/profile-picture";
+import ConnectButton from "../components/connect-button";
 import axios from "../axios";
 
 export default class OtherProfile extends Component {
@@ -36,6 +37,9 @@ export default class OtherProfile extends Component {
                         defaultImg={this.state.imgUrl === null}
                     />
                 </div>
+
+                <ConnectButton userId={this.props.match.params.id} />
+
                 <div className="flex flex-col flex-grow py-12 md:w-3/5 lg:w-2/5">
                     <p className="flex-grow text-center">{this.state.bio}</p>
                 </div>
