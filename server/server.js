@@ -1,4 +1,8 @@
-const { updateBio, getConnectionStatus } = require("./db");
+const {
+    updateBio,
+    getConnectionStatus,
+    updateConnectionStatus,
+} = require("./db");
 
 const express = require("express");
 const app = express();
@@ -113,7 +117,35 @@ app.get("/connection-status", async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({
-            error: "Error in /connection-status route",
+            error: "Error in GET /connection-status route",
+        });
+    }
+});
+
+app.post("/connection-status", async (req, res) => {
+    console.log(req.body);
+    const { userId: senderId } = req.session;
+    const { btnText, recipientId } = req.body;
+    try {
+        if (btnText === "Connect") {
+            const result = await updateConnectionStatus(senderId, recipientId);
+            console.log(result);
+            if (!result.rows[0].accepted) {
+                if (result.rows[0].recipient_id === senderId) {
+                    res.status(200).json({
+                        btnText: "Accept",
+                    });
+                } else {
+                    res.status(200).json({
+                        btnText: "Cancel",
+                    });
+                }
+            }
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: "Error in POST /connection-status route",
         });
     }
 });

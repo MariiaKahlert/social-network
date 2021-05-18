@@ -40,7 +40,7 @@ export default function Menu() {
                             : "text-purple-200")
                     }
                 >
-                    Friends
+                    Connections
                 </Link>
             </div>
 

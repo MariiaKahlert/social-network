@@ -125,3 +125,14 @@ module.exports.getConnectionStatus = (senderId, recipientId) => {
         [senderId, recipientId]
     );
 };
+
+module.exports.updateConnectionStatus = (senderId, recipientId) => {
+    return db.query(
+        `
+            INSERT INTO connections (sender_id, recipient_id)
+            VALUES ($1, $2)
+            RETURNING *
+        `,
+        [senderId, recipientId]
+    );
+};
