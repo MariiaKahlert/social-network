@@ -4,7 +4,6 @@ import axios from "../axios";
 export default function ConnectButton({ userId }) {
     const [buttonText, setButtonText] = useState("");
     useEffect(() => {
-        console.log(userId);
         (async () => {
             try {
                 const { data } = await axios.get(

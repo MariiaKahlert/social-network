@@ -16,9 +16,9 @@ export default function FindPeople() {
                         setPeople(response.data);
                     }
                 } else {
-                    const response = await axios.post("/find-users", {
-                        searchInput: searchInput,
-                    });
+                    const response = await axios.get(
+                        `/find-users?q=${searchInput}`
+                    );
                     if (!ignore) {
                         setPeople(response.data);
                     }

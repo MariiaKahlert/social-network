@@ -24,18 +24,18 @@ export default function Menu() {
             </div>
 
             <div className="mb-4 flex items-center">
-                {location.pathname === "/friends" && (
-                    <img src="/active-friends.png" className="h-4"></img>
+                {location.pathname === "/connections" && (
+                    <img src="/active-connections.png" className="h-4"></img>
                 )}
-                {location.pathname !== "/friends" && (
-                    <img src="/inactive-friends.png" className="h-4"></img>
+                {location.pathname !== "/connections" && (
+                    <img src="/inactive-connections.png" className="h-4"></img>
                 )}
 
                 <Link
-                    to="#"
+                    to="/connections"
                     className={
                         "text-lg ml-4 " +
-                        (location.pathname === "/friends"
+                        (location.pathname === "/connections"
                             ? "text-white font-bold"
                             : "text-purple-200")
                     }
