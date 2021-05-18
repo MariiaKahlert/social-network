@@ -21,7 +21,7 @@ export default class BioEditor extends Component {
 
     async handleSubmit(e) {
         e.preventDefault();
-        if (!this.state.draftBio) {
+        if (this.state.draftBio === undefined) {
             this.toggleTextArea();
             return;
         }
