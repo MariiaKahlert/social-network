@@ -1,10 +1,4 @@
-const {
-    updateBio,
-    getConnectionStatus,
-    insertConnection,
-    updateConnectionStatus,
-    deleteConnection,
-} = require("./db");
+const { updateBio } = require("./db");
 
 const express = require("express");
 const app = express();

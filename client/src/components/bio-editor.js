@@ -6,7 +6,6 @@ export default class BioEditor extends Component {
         super(props);
         this.state = {
             showTextArea: false,
-            showAddOrEditBtn: true,
         };
         this.toggleTextArea = this.toggleTextArea.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -40,41 +39,44 @@ export default class BioEditor extends Component {
     toggleTextArea() {
         this.setState({
             showTextArea: !this.state.showTextArea,
-            showAddOrEditBtn: !this.state.showAddOrEditBtn,
         });
     }
 
     render() {
         return (
             <div className="flex flex-col flex-grow py-12 md:w-3/5 lg:w-2/5">
-                {!this.props.bio && this.state.showAddOrEditBtn && (
+                {!this.state.showTextArea ? (
                     <>
-                        <p className="flex-grow"></p>
-                        <button
-                            type="button"
-                            onClick={this.toggleTextArea}
-                            className="bg-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
-                        >
-                            Add bio
-                        </button>
-                    </>
-                )}
-                {this.props.bio && this.state.showAddOrEditBtn && (
-                    <>
-                        <div className="flex-grow overflow-auto">
-                            <p className="text-center">{this.props.bio}</p>
-                        </div>
+                        {!this.props.bio ? (
+                            <>
+                                <p className="flex-grow"></p>
+                                <button
+                                    type="button"
+                                    onClick={this.toggleTextArea}
+                                    className="bg-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                                >
+                                    Add bio
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <div className="flex-grow overflow-auto">
+                                    <p className="text-center">
+                                        {this.props.bio}
+                                    </p>
+                                </div>
 
-                        <button
-                            type="button"
-                            onClick={this.toggleTextArea}
-                            className="bg-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
-                        >
-                            Edit bio
-                        </button>
+                                <button
+                                    type="button"
+                                    onClick={this.toggleTextArea}
+                                    className="bg-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                                >
+                                    Edit bio
+                                </button>
+                            </>
+                        )}
                     </>
-                )}
-                {this.state.showTextArea && (
+                ) : (
                     <>
                         <textarea
                             name="draftBio"

@@ -3,13 +3,11 @@ export default function Menu() {
     return (
         <div className="mt-14">
             <div className="mb-4 flex items-center">
-                {location.pathname === "/" && (
+                {location.pathname === "/" ? (
                     <img src="/active-myprofile.png" className="h-4"></img>
-                )}
-                {location.pathname !== "/" && (
+                ) : (
                     <img src="/inactive-myprofile.png" className="h-4"></img>
                 )}
-
                 <Link
                     to="/"
                     className={
@@ -24,10 +22,9 @@ export default function Menu() {
             </div>
 
             <div className="mb-4 flex items-center">
-                {location.pathname === "/connections" && (
+                {location.pathname === "/connections" ? (
                     <img src="/active-connections.png" className="h-4"></img>
-                )}
-                {location.pathname !== "/connections" && (
+                ) : (
                     <img src="/inactive-connections.png" className="h-4"></img>
                 )}
 
@@ -45,10 +42,9 @@ export default function Menu() {
             </div>
 
             <div className="mb-8 flex items-center">
-                {location.pathname === "/users" && (
+                {location.pathname === "/users" ? (
                     <img src="/active-community.png" className="h-5"></img>
-                )}
-                {location.pathname !== "/users" && (
+                ) : (
                     <img src="/inactive-community.png" className="h-5"></img>
                 )}
 

@@ -8,7 +8,7 @@ export default function ProfilePicture({
 }) {
     return (
         <>
-            {!inProfile && (
+            {!inProfile ? (
                 <>
                     <img
                         src={imgUrl}
@@ -28,9 +28,7 @@ export default function ProfilePicture({
                         </p>
                     </div>
                 </>
-            )}
-
-            {inProfile && (
+            ) : (
                 <>
                     <div className="flex justify-center">
                         <img
