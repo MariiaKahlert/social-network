@@ -47,7 +47,7 @@ export default function FindPeople(props) {
                 ></input>
             </div>
             {!searchInput && (
-                <p className="text-purple-300 mt-10">
+                <p className="text-gray-700 mt-10">
                     People who recently joined
                 </p>
             )}
@@ -58,7 +58,7 @@ export default function FindPeople(props) {
                 {people.map((person, index) => {
                     return (
                         <Link key={index} to={`/user/${person.id}`}>
-                            <div className="flex items-center w-full h-28 mt-10 bg-white shadow-lg rounded-lg">
+                            <div className="group flex items-center w-full h-28 mt-10 bg-purple-100 rounded-lg border-2 border-purple-200 duration-200 hover:bg-white hover:shadow-lg hover:border-transparent">
                                 <img
                                     src={person["img_url"] || "/user.png"}
                                     className={
@@ -69,7 +69,7 @@ export default function FindPeople(props) {
                                     }
                                 ></img>
                                 <div className="ml-4">
-                                    <h3 className="font-bold">
+                                    <h3 className="text-gray-700 font-bold group-hover:text-black">
                                         {person["first_name"]}{" "}
                                         {person["last_name"]}
                                     </h3>
