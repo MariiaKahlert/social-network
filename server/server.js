@@ -1,4 +1,4 @@
-const { updateBio } = require("./db");
+const { updateBio, selectConnectionsAndRequests } = require("./db");
 
 const express = require("express");
 const app = express();
@@ -82,6 +82,14 @@ require("./routes/users-search");
 
 // Connection status
 require("./routes/connection-status");
+
+// Connections and requests
+app.get("/connections-requests", async (req, res) => {
+    const { userId } = req.session;
+    console.log(userId);
+    const { rows } = await selectConnectionsAndRequests(userId);
+    console.log(rows);
+});
 
 app.get("*", function (req, res) {
     if (!req.session.userId) {

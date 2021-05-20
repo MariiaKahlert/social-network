@@ -6,6 +6,7 @@ import Uploader from "./components/uploader";
 import Profile from "./components/profile";
 import OtherProfile from "./components/other-profile";
 import FindPeople from "./components/find-people";
+import Connections from "./components/connections";
 import axios from "./axios";
 
 export default class App extends Component {
@@ -105,6 +106,7 @@ export default class App extends Component {
                                 <FindPeople loggedInUserId={this.state.id} />
                             )}
                         ></Route>
+                        <Route path="/connections" component={Connections} />
                     </div>
 
                     {/* Overlay and modal */}

@@ -161,3 +161,17 @@ module.exports.deleteConnection = (loggedInUser, otherUser) => {
         [loggedInUser, otherUser]
     );
 };
+
+module.exports.selectConnectionsAndRequests = (userId) => {
+    return db.query(
+        `
+            SELECT users.id, first_name, last_name, img_url, accepted
+            FROM connections
+            JOIN users
+            ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+            OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+            OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
+        `,
+        [userId]
+    );
+};
