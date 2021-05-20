@@ -18,8 +18,7 @@ export default class BioEditor extends Component {
         });
     }
 
-    async handleSubmit(e) {
-        e.preventDefault();
+    async handleSubmit() {
         if (this.state.draftBio === undefined) {
             this.toggleTextArea();
             return;
@@ -85,7 +84,7 @@ export default class BioEditor extends Component {
                             className="flex-grow border border-purple-300 text-purple-300 rounded-lg p-4 focus:outline-none resize-none"
                         ></textarea>
                         <button
-                            type="submit"
+                            type="button"
                             onClick={this.handleSubmit}
                             className="bg-purple-200 font-bold rounded-full mt-6 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
                         >
