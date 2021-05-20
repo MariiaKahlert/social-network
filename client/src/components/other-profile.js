@@ -40,8 +40,18 @@ export default class OtherProfile extends Component {
 
                 <ConnectButton userId={this.props.match.params.id} />
 
-                <div className="flex flex-col flex-grow py-12 md:w-3/5 lg:w-2/5">
-                    <p className="flex-grow text-center">{this.state.bio}</p>
+                <div className="flex flex-col items-center flex-grow py-12 md:w-3/5 lg:w-2/5">
+                    <h3 className="font-bold text-lg">About</h3>
+                    {this.state.bio ? (
+                        <p className="flex-grow text-center mt-4">
+                            {this.state.bio}
+                        </p>
+                    ) : (
+                        <p className="flex-grow text-center text-gray-500 mt-4">
+                            {this.state.firstName} hasn&apos;t added anything to
+                            bio yet
+                        </p>
+                    )}
                 </div>
             </div>
         );
