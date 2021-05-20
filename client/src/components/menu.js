@@ -1,18 +1,11 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getConnectionsAndRequests } from "../actions";
+import { useSelector } from "react-redux";
 
 export default function Menu() {
-    const dispatch = useDispatch();
     const requests = useSelector(
         (state) =>
             state.users && state.users.filter((user) => user.accepted === false)
     );
-
-    useEffect(() => {
-        requests && dispatch(getConnectionsAndRequests());
-    }, []);
 
     if (!requests) {
         return null;
