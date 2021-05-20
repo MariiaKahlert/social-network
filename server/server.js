@@ -87,8 +87,16 @@ require("./routes/connection-status");
 app.get("/connections-requests", async (req, res) => {
     const { userId } = req.session;
     console.log(userId);
-    const { rows } = await selectConnectionsAndRequests(userId);
-    console.log(rows);
+    try {
+        const { rows } = await selectConnectionsAndRequests(userId);
+        console.log(rows);
+        res.json(rows);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: "Error in /connections-requests route",
+        });
+    }
 });
 
 app.get("*", function (req, res) {
