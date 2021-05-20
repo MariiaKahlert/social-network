@@ -1,4 +1,4 @@
-const { updateBio, selectConnectionsAndRequests } = require("./db");
+const { updateBio } = require("./db");
 
 const express = require("express");
 const app = express();
@@ -84,20 +84,7 @@ require("./routes/users-search");
 require("./routes/connection-status");
 
 // Connections and requests
-app.get("/connections-requests", async (req, res) => {
-    const { userId } = req.session;
-    console.log(userId);
-    try {
-        const { rows } = await selectConnectionsAndRequests(userId);
-        console.log(rows);
-        res.json(rows);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            error: "Error in /connections-requests route",
-        });
-    }
-});
+require("./routes/connections-requests");
 
 app.get("*", function (req, res) {
     if (!req.session.userId) {

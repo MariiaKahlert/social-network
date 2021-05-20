@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getConnectionsAndRequests } from "../actions";
+import {
+    getConnectionsAndRequests,
+    acceptConnection,
+    disconnect,
+} from "../actions";
 
 export default function Connections() {
     const dispatch = useDispatch();
@@ -12,8 +16,6 @@ export default function Connections() {
         (state) =>
             state.users && state.users.filter((user) => user.accepted === false)
     );
-    console.log("connections in Connections component: ", connections);
-    console.log("requests in Connections component: ", requests);
 
     useEffect(() => {
         (!connections || !requests) && dispatch(getConnectionsAndRequests());
@@ -34,22 +36,33 @@ export default function Connections() {
                     return (
                         <div
                             key={index}
-                            className="group flex items-center w-full h-28 mt-4 bg-purple-100 rounded-lg border-2 border-purple-200 duration-200 hover:bg-white hover:shadow-lg hover:border-transparent"
+                            className="group flex items-center justify-between w-full h-28 mt-4 bg-purple-100 rounded-lg border-2 border-purple-200 duration-200 hover:bg-white hover:shadow-lg hover:border-transparent"
                         >
-                            <img
-                                src={user["img_url"] || "/user.png"}
-                                className={
-                                    "h-16 ml-8 rounded-lg bg-white " +
-                                    (user["img_url"] === null
-                                        ? "border-2 border-purple-200 p-2"
-                                        : "")
-                                }
-                            ></img>
-                            <div className="ml-4">
-                                <h3 className="text-gray-700 font-bold group-hover:text-black">
-                                    {user["first_name"]} {user["last_name"]}
-                                </h3>
+                            <div className="flex items-center">
+                                <img
+                                    src={user["img_url"] || "/user.png"}
+                                    className={
+                                        "h-16 ml-8 rounded-lg bg-white " +
+                                        (user["img_url"] === null
+                                            ? "border-2 border-purple-200 p-2"
+                                            : "")
+                                    }
+                                ></img>
+                                <div className="ml-4">
+                                    <h3 className="text-gray-700 font-bold group-hover:text-black">
+                                        {user["first_name"]} {user["last_name"]}
+                                    </h3>
+                                </div>
                             </div>
+
+                            <button
+                                onClick={() =>
+                                    dispatch(acceptConnection(user.id))
+                                }
+                                className="bg-purple-200 font-bold rounded-full md:w-1/3 lg:w-1/4 mr-8 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                            >
+                                Accept
+                            </button>
                         </div>
                     );
                 })}
@@ -63,22 +76,31 @@ export default function Connections() {
                     return (
                         <div
                             key={index}
-                            className="group flex items-center w-full h-28 mt-4 bg-purple-100 rounded-lg border-2 border-purple-200 duration-200 hover:bg-white hover:shadow-lg hover:border-transparent"
+                            className="group flex items-center justify-between w-full h-28 mt-4 bg-purple-100 rounded-lg border-2 border-purple-200 duration-200 hover:bg-white hover:shadow-lg hover:border-transparent"
                         >
-                            <img
-                                src={user["img_url"] || "/user.png"}
-                                className={
-                                    "h-16 ml-8 rounded-lg bg-white " +
-                                    (user["img_url"] === null
-                                        ? "border-2 border-purple-200 p-2"
-                                        : "")
-                                }
-                            ></img>
-                            <div className="ml-4">
-                                <h3 className="text-gray-700 font-bold group-hover:text-black">
-                                    {user["first_name"]} {user["last_name"]}
-                                </h3>
+                            <div className="flex items-center">
+                                <img
+                                    src={user["img_url"] || "/user.png"}
+                                    className={
+                                        "h-16 ml-8 rounded-lg bg-white " +
+                                        (user["img_url"] === null
+                                            ? "border-2 border-purple-200 p-2"
+                                            : "")
+                                    }
+                                ></img>
+                                <div className="ml-4">
+                                    <h3 className="text-gray-700 font-bold group-hover:text-black">
+                                        {user["first_name"]} {user["last_name"]}
+                                    </h3>
+                                </div>
                             </div>
+
+                            <button
+                                onClick={() => dispatch(disconnect(user.id))}
+                                className="bg-purple-200 font-bold rounded-full md:w-1/3 lg:w-1/4 mr-8 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                            >
+                                Disconnect
+                            </button>
                         </div>
                     );
                 })}
