@@ -50,7 +50,7 @@ export default function Connections() {
 
     return (
         <div className="lg:w-2/5 md:w-2/3 flex flex-col justify-center items-center">
-            {(requests.length === 0 || requests.length) > 1 ? (
+            {requests.length === 0 || requests.length > 1 ? (
                 <p className="text-gray-700">
                     {requests.length} connection requests
                 </p>
@@ -71,19 +71,29 @@ export default function Connections() {
                             className="group flex items-center justify-between w-full h-28 mt-4 bg-purple-100 rounded-lg border-2 border-purple-200 duration-200 hover:bg-white hover:shadow-lg hover:border-transparent"
                         >
                             {userInfo(user)}
-                            <button
-                                onClick={() =>
-                                    dispatch(acceptConnection(user.id))
-                                }
-                                className="bg-purple-200 font-bold rounded-full md:w-1/3 lg:w-1/4 mr-8 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
-                            >
-                                Accept
-                            </button>
+                            <div className="mr-8 py-1 flex flex-col justify-evenly h-full md:w-1/3 lg:w-1/4">
+                                <button
+                                    onClick={() =>
+                                        dispatch(acceptConnection(user.id))
+                                    }
+                                    className="bg-purple-200 font-bold rounded-full w-full p-2 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                                >
+                                    Accept
+                                </button>
+                                <button
+                                    onClick={() =>
+                                        dispatch(disconnect(user.id))
+                                    }
+                                    className="p-2 text-gray-500 font-bold w-full rounded-full duration-200 hover:bg-purple-50 hover:text-gray-700"
+                                >
+                                    Decline
+                                </button>
+                            </div>
                         </div>
                     );
                 })}
             </div>
-            {(connections.length === 0 || connections.length) > 1 ? (
+            {connections.length === 0 || connections.length > 1 ? (
                 <p className="text-gray-700">
                     {connections.length} connections
                 </p>
@@ -103,7 +113,7 @@ export default function Connections() {
                             {userInfo(user)}
                             <button
                                 onClick={() => dispatch(disconnect(user.id))}
-                                className="bg-purple-200 font-bold rounded-full md:w-1/3 lg:w-1/4 mr-8 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                                className="bg-purple-200 font-bold rounded-full md:w-1/3 lg:w-1/4 mr-8 p-2 duration-200 hover:bg-purple-300 hover:text-gray-700"
                             >
                                 Disconnect
                             </button>

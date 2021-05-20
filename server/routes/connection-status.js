@@ -64,7 +64,11 @@ app.post("/connection-status", async (req, res) => {
             return;
         }
 
-        if (btnText === "Disconnect" || btnText === "Cancel") {
+        if (
+            btnText === "Disconnect" ||
+            btnText === "Cancel" ||
+            btnText === "Decline"
+        ) {
             const { rows } = await deleteConnection(loggedInUsed, otherUser);
             sendJson(loggedInUsed, rows, res);
             return;

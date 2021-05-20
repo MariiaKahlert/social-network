@@ -51,11 +51,13 @@ export default function Menu() {
                     Connections
                 </Link>
                 {requests.length > 0 && (
-                    <div className="bg-white ml-4 py-1 px-2 rounded-lg">
-                        <p className="text-purple-500 font-bold">
-                            + {requests.length}
-                        </p>
-                    </div>
+                    <Link to="/connections">
+                        <div className="bg-white ml-4 py-1 px-2 rounded-lg">
+                            <p className="text-purple-500 font-bold">
+                                + {requests.length}
+                            </p>
+                        </div>
+                    </Link>
                 )}
             </div>
 
