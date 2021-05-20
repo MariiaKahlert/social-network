@@ -25,9 +25,41 @@ export default function Connections() {
         return null;
     }
 
+    const userInfo = (user) => {
+        return (
+            <Link to={`/user/${user.id}`}>
+                <div className="flex items-center">
+                    <img
+                        src={user["img_url"] || "/user.png"}
+                        className={
+                            "h-16 ml-8 rounded-lg bg-white " +
+                            (user["img_url"] === null
+                                ? "border-2 border-purple-200 p-2"
+                                : "")
+                        }
+                    ></img>
+                    <div className="ml-4">
+                        <h3 className="text-gray-700 font-bold group-hover:text-black">
+                            {user["first_name"]} {user["last_name"]}
+                        </h3>
+                    </div>
+                </div>
+            </Link>
+        );
+    };
+
     return (
         <div className="lg:w-2/5 md:w-2/3 flex flex-col justify-center items-center">
-            <p className="text-gray-700">Connection requests</p>
+            {(requests.length === 0 || requests.length) > 1 ? (
+                <p className="text-gray-700">
+                    {requests.length} connection requests
+                </p>
+            ) : (
+                <p className="text-gray-700">
+                    {requests.length} connection request
+                </p>
+            )}
+
             <div
                 className="w-full flex-grow overflow-y-auto mt-8"
                 style={{ height: "40vh" }}
@@ -38,23 +70,7 @@ export default function Connections() {
                             key={index}
                             className="group flex items-center justify-between w-full h-28 mt-4 bg-purple-100 rounded-lg border-2 border-purple-200 duration-200 hover:bg-white hover:shadow-lg hover:border-transparent"
                         >
-                            <div className="flex items-center">
-                                <img
-                                    src={user["img_url"] || "/user.png"}
-                                    className={
-                                        "h-16 ml-8 rounded-lg bg-white " +
-                                        (user["img_url"] === null
-                                            ? "border-2 border-purple-200 p-2"
-                                            : "")
-                                    }
-                                ></img>
-                                <div className="ml-4">
-                                    <h3 className="text-gray-700 font-bold group-hover:text-black">
-                                        {user["first_name"]} {user["last_name"]}
-                                    </h3>
-                                </div>
-                            </div>
-
+                            {userInfo(user)}
                             <button
                                 onClick={() =>
                                     dispatch(acceptConnection(user.id))
@@ -67,7 +83,13 @@ export default function Connections() {
                     );
                 })}
             </div>
-            <p className="text-gray-700 mt-8">Your connections</p>
+            {(connections.length === 0 || connections.length) > 1 ? (
+                <p className="text-gray-700">
+                    {connections.length} connections
+                </p>
+            ) : (
+                <p className="text-gray-700">{connections.length} connection</p>
+            )}
             <div
                 className="w-full flex-grow overflow-y-auto mt-8"
                 style={{ height: "60vh" }}
@@ -78,23 +100,7 @@ export default function Connections() {
                             key={index}
                             className="group flex items-center justify-between w-full h-28 mt-4 bg-purple-100 rounded-lg border-2 border-purple-200 duration-200 hover:bg-white hover:shadow-lg hover:border-transparent"
                         >
-                            <div className="flex items-center">
-                                <img
-                                    src={user["img_url"] || "/user.png"}
-                                    className={
-                                        "h-16 ml-8 rounded-lg bg-white " +
-                                        (user["img_url"] === null
-                                            ? "border-2 border-purple-200 p-2"
-                                            : "")
-                                    }
-                                ></img>
-                                <div className="ml-4">
-                                    <h3 className="text-gray-700 font-bold group-hover:text-black">
-                                        {user["first_name"]} {user["last_name"]}
-                                    </h3>
-                                </div>
-                            </div>
-
+                            {userInfo(user)}
                             <button
                                 onClick={() => dispatch(disconnect(user.id))}
                                 className="bg-purple-200 font-bold rounded-full md:w-1/3 lg:w-1/4 mr-8 p-3 duration-200 hover:bg-purple-300 hover:text-gray-700"
