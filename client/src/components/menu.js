@@ -1,5 +1,23 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getConnectionsAndRequests } from "../actions";
+
 export default function Menu() {
+    const dispatch = useDispatch();
+    const requests = useSelector(
+        (state) =>
+            state.users && state.users.filter((user) => user.accepted === false)
+    );
+
+    useEffect(() => {
+        requests && dispatch(getConnectionsAndRequests());
+    }, []);
+
+    if (!requests) {
+        return null;
+    }
+
     return (
         <div className="mt-14">
             <div className="mb-4 flex items-center">
@@ -39,6 +57,13 @@ export default function Menu() {
                 >
                     Connections
                 </Link>
+                {requests.length > 0 && (
+                    <div className="bg-white ml-4 py-1 px-2 rounded-lg">
+                        <p className="text-purple-500 font-bold">
+                            + {requests.length}
+                        </p>
+                    </div>
+                )}
             </div>
 
             <div className="mb-8 flex items-center">
