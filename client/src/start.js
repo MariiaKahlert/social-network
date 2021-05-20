@@ -12,11 +12,11 @@ const store = createStore(
     reducer,
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
-store.dispatch(getConnectionsAndRequests());
 
 if (location.pathname === "/welcome") {
     ReactDOM.render(<Welcome />, document.querySelector("main"));
 } else {
+    store.dispatch(getConnectionsAndRequests());
     ReactDOM.render(
         <Provider store={store}>
             <App />
