@@ -52,15 +52,20 @@ export default function Connections() {
         <div className="w-full">
             <div className="lg:w-1/2 pl-12 p-4 flex flex-col items-center">
                 {connections.length === 0 || connections.length > 1 ? (
-                    <p className="text-gray-700 text-lg font-bold">
+                    <p className="text-lg font-bold">
                         {connections.length} connections
                     </p>
                 ) : (
-                    <p className="text-gray-700 text-lg font-bold">
+                    <p className="text-lg font-bold">
                         {connections.length} connection
                     </p>
                 )}
                 <div className="w-full">
+                    {connections.length === 0 && (
+                        <p className="text-center text-gray-500 mt-4">
+                            You don&apos;t have any connections
+                        </p>
+                    )}
                     {connections.map((user, index) => {
                         return (
                             <div
@@ -87,15 +92,20 @@ export default function Connections() {
                     style={{ maxHeight: "calc(100vh - 8rem)" }}
                 >
                     {requests.length === 0 || requests.length > 1 ? (
-                        <p className="text-gray-700 text-center text-lg font-bold">
+                        <p className="text-center text-lg font-bold">
                             {requests.length} connection requests
                         </p>
                     ) : (
-                        <p className="text-gray-700 text-center text-lg font-bold">
+                        <p className="text-center text-lg font-bold">
                             {requests.length} connection request
                         </p>
                     )}
                     <div className="w-full overflow-y-auto">
+                        {requests.length === 0 && (
+                            <p className="text-center text-gray-500 mt-4">
+                                No new connection requests
+                            </p>
+                        )}
                         {requests.map((user, index) => {
                             return (
                                 <div
