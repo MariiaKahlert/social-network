@@ -61,7 +61,7 @@ export default function Menu() {
                 )}
             </div>
 
-            <div className="mb-8 flex items-center">
+            <div className="mb-4 flex items-center">
                 {location.pathname === "/users" ? (
                     <img src="/active-community.png" className="h-5"></img>
                 ) : (
@@ -78,6 +78,26 @@ export default function Menu() {
                     }
                 >
                     Community
+                </Link>
+            </div>
+
+            <div className="mb-8 flex items-center">
+                {location.pathname === "/forum" ? (
+                    <img src="/active-chat.png" className="h-4"></img>
+                ) : (
+                    <img src="/inactive-chat.png" className="h-4"></img>
+                )}
+
+                <Link
+                    to="/forum"
+                    className={
+                        "text-lg ml-4 hover:text-white duration-200 " +
+                        (location.pathname === "/forum"
+                            ? "text-white font-bold"
+                            : "text-purple-200")
+                    }
+                >
+                    Forum
                 </Link>
             </div>
 
