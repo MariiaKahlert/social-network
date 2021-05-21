@@ -1,10 +1,17 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "../axios";
 
 export default function FindPeople(props) {
     const [searchInput, setSearchInput] = useState("");
     const [people, setPeople] = useState([]);
+
+    const connections = useSelector(
+        (state) => state.users && state.users.filter((user) => user.accepted)
+    );
+
+    // console.log(connections);
 
     useEffect(() => {
         let ignore = false;
@@ -35,6 +42,15 @@ export default function FindPeople(props) {
     const handleChange = (e) => {
         setSearchInput(e.target.value);
     };
+
+    const displayConnected = (personId) => {
+        return connections.map((connection) => {
+            if (connection.id === personId) {
+                return <p className="text-gray-700">Connected</p>;
+            }
+        });
+    };
+
     return (
         <div className="lg:w-2/5 md:w-2/3 flex flex-col justify-center items-center">
             <div className="flex items-center bg-white rounded">
@@ -76,6 +92,7 @@ export default function FindPeople(props) {
                                     {props.loggedInUserId === person.id && (
                                         <p className="text-gray-700">You</p>
                                     )}
+                                    {displayConnected(person.id)}
                                 </div>
                             </div>
                         </Link>
