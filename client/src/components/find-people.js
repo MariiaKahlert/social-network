@@ -11,8 +11,6 @@ export default function FindPeople(props) {
         (state) => state.users && state.users.filter((user) => user.accepted)
     );
 
-    // console.log(connections);
-
     useEffect(() => {
         let ignore = false;
         (async () => {
@@ -46,7 +44,11 @@ export default function FindPeople(props) {
     const displayConnected = (personId) => {
         return connections.map((connection) => {
             if (connection.id === personId) {
-                return <p className="text-gray-700">Connected</p>;
+                return (
+                    <p key={personId} className="text-gray-700">
+                        Connected
+                    </p>
+                );
             }
         });
     };
