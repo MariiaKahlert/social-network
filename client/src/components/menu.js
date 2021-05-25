@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export default function Menu() {
+export default function Menu({ loggedInUserId }) {
     const requests = useSelector(
         (state) =>
             state.users && state.users.filter((user) => user.accepted === false)
+    );
+    const newMessages = useSelector(
+        (state) =>
+            state.newMessages &&
+            state.newMessages.filter(
+                (message) => message.sender_id !== loggedInUserId
+            )
     );
 
     if (!requests) {
@@ -99,6 +106,15 @@ export default function Menu() {
                 >
                     Forum
                 </Link>
+                {newMessages && newMessages.length > 0 && (
+                    <Link to="/forum">
+                        <div className="bg-white ml-4 py-1 px-2 rounded-lg">
+                            <p className="text-purple-500 font-bold">
+                                + {newMessages.length}
+                            </p>
+                        </div>
+                    </Link>
+                )}
             </div>
 
             <div className="mb-4 flex items-center">

@@ -50,8 +50,18 @@ export default function reducer(state = {}, action) {
                 ...(!state.allMessages ? [] : state.allMessages),
                 action.msg,
             ],
+            newMessages: [
+                ...(!state.newMessages ? [] : state.newMessages),
+                action.msg,
+            ],
         };
     }
 
+    if (action.type === "RESET_NEW_MESSAGES") {
+        state = {
+            ...state,
+            newMessages: [],
+        };
+    }
     return state;
 }

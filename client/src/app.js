@@ -79,7 +79,7 @@ export default class App extends Component {
                                             }
                                         />
                                     </div>
-                                    <Menu />
+                                    <Menu loggedInUserId={this.state.id} />
                                 </div>
                             </div>
                         )}

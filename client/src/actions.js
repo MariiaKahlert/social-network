@@ -63,3 +63,8 @@ export async function newMessage(msg) {
         msg,
     };
 }
+export async function resetNewMessages() {
+    return {
+        type: "RESET_NEW_MESSAGES",
+    };
+}

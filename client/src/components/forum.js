@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import { socket } from "../socket";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { resetNewMessages } from "../actions";
 
 // Variables that should be available for the whole app lifecycle
 let lastRequestedMessageId = null;
@@ -9,6 +10,7 @@ let scrollCheckStarted = false;
 let scrollHeightBeforeEmit = null;
 
 export default function Forum({ loggedInUserId }) {
+    const dispatch = useDispatch();
     const allMessages = useSelector((state) => state && state.allMessages);
     const elemRef = useRef();
     const sendMessage = (e) => {
@@ -37,8 +39,9 @@ export default function Forum({ loggedInUserId }) {
     };
 
     useEffect(() => {
+        dispatch(resetNewMessages());
         // Scroll to bottom when initial 10 messages are loaded
-        if (allMessages && allMessages.length > 0 && allMessages.length <= 10) {
+        if (!scrollHeightBeforeEmit) {
             elemRef.current.scrollTop =
                 elemRef.current.scrollHeight - elemRef.current.clientHeight;
         }
@@ -46,6 +49,7 @@ export default function Forum({ loggedInUserId }) {
         if (scrollHeightBeforeEmit) {
             elemRef.current.scrollTop =
                 elemRef.current.scrollHeight - scrollHeightBeforeEmit;
+            scrollHeightBeforeEmit = null;
         }
         // Start checking scrolling position once
         if (
