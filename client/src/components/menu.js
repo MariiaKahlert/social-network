@@ -101,6 +101,16 @@ export default function Menu() {
                 </Link>
             </div>
 
+            <div className="mb-4 flex items-center">
+                <img src="/inactive-bin.png" className="h-4"></img>
+                <Link
+                    to="/delete-account"
+                    className="ml-4 text-purple-200 text-lg hover:text-white duration-200"
+                >
+                    Delete account
+                </Link>
+            </div>
+
             <div className="mb-8 flex items-center">
                 <img src="/inactive-logout.png" className="h-5"></img>
                 <a
