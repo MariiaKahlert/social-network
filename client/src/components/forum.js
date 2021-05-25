@@ -24,31 +24,69 @@ export default function Forum({ loggedInUserId }) {
         <div className="w-2/3 flex flex-col justify-between items-center bg-white shadow-lg rounded-lg">
             <div
                 ref={elemRef}
-                className="w-2/3 flex flex-col justify-center my-8 overflow-y-auto"
+                className="w-2/3 flex flex-col my-8 overflow-y-auto"
                 style={{ maxHeight: "30rem" }}
             >
                 {(allMessages ? allMessages : []).map((message, index) => {
                     return (
                         <div
                             key={index}
-                            className="flex rounded-lg bg-purple-50 mt-8 p-4"
+                            className={`${
+                                loggedInUserId === message.sender_id
+                                    ? "self-end"
+                                    : ""
+                            } bg-${
+                                loggedInUserId === message.sender_id
+                                    ? "purple-400"
+                                    : "purple-50"
+                            } flex w-2/3 rounded-lg mt-8 p-4`}
                         >
-                            <img
-                                src={message.img_url || "/user.png"}
-                                className={
-                                    "h-14 rounded-full bg-white " +
-                                    (message.img_url === null
-                                        ? "border-2 border-purple-200 p-2"
-                                        : "")
-                                }
-                            ></img>
+                            <div className="flex flex-col flex-shrink-0 items-center">
+                                <img
+                                    src={message.img_url || "/user.png"}
+                                    className={
+                                        `h-14 rounded-full ${
+                                            loggedInUserId === message.sender_id
+                                                ? "bg-purple-400"
+                                                : "bg-white"
+                                        } ` +
+                                        (message.img_url === null
+                                            ? "border-2 border-purple-200 p-2"
+                                            : "")
+                                    }
+                                ></img>
+                                <p
+                                    className={`text-${
+                                        loggedInUserId === message.sender_id
+                                            ? "white"
+                                            : "black"
+                                    }`}
+                                >
+                                    {message.first_name}
+                                </p>
+                            </div>
+
                             <div className="ml-4">
-                                <p className="text-gray-400">
+                                <p
+                                    className={`text-${
+                                        loggedInUserId === message.sender_id
+                                            ? "purple-300"
+                                            : "gray-400"
+                                    }`}
+                                >
                                     {new Date(message.created_at)
                                         .toUTCString()
                                         .replace("GMT", "")}
                                 </p>
-                                <p>{message.message}</p>
+                                <p
+                                    className={`mt-2 text-${
+                                        loggedInUserId === message.sender_id
+                                            ? "white"
+                                            : "black"
+                                    }`}
+                                >
+                                    {message.message}
+                                </p>
                             </div>
                         </div>
                     );
@@ -57,7 +95,7 @@ export default function Forum({ loggedInUserId }) {
             <textarea
                 onKeyDown={sendMessage}
                 placeholder="Your message"
-                className="mb-8 h-12 w-2/3 border border-gray-300 text-gray-700 rounded-full p-4 focus:outline-none focus:border-gray-700 resize-none"
+                className="mb-8 h-12 w-2/3 border border-gray-300 text-gray-700 rounded-full px-4 py-3 focus:outline-none focus:border-gray-700 resize-none"
             ></textarea>
         </div>
     );

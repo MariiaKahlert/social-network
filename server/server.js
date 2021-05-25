@@ -139,6 +139,7 @@ io.on("connection", async function (socket) {
             const { rows: newMessage } = await insertMessage(message, userId);
             const { rows: userInfo } = await getUserInfo(userId);
             const newMsgAndUserUnfo = {
+                sender_id: userInfo[0].id,
                 first_name: userInfo[0].first_name,
                 last_name: userInfo[0].last_name,
                 img_url: userInfo[0].img_url,
