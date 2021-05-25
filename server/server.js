@@ -1,4 +1,9 @@
-const { updateBio, insertMessage, getUserInfo } = require("./db");
+const {
+    updateBio,
+    insertMessage,
+    selectMessages,
+    getUserInfo,
+} = require("./db");
 
 const express = require("express");
 const app = express();
@@ -117,7 +122,7 @@ server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
 
-io.on("connection", function (socket) {
+io.on("connection", async function (socket) {
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
@@ -125,25 +130,22 @@ io.on("connection", function (socket) {
 
     const userId = socket.request.session.userId;
 
-    socket.on("forumMessage", async (msg) => {
-        const { message } = msg;
-        console.log(message);
+    const { rows: allMessages } = await selectMessages();
+    io.emit("allMessages", allMessages.reverse());
+
+    socket.on("newMessage", async (messageObj) => {
+        const { message } = messageObj;
         try {
-            const result = await insertMessage(message, userId);
-            console.log(result);
-            const { rows } = await getUserInfo(userId);
-            console.log(rows);
-            const finalResult = [
-                {
-                    first_name: rows[0].first_name,
-                    last_name: rows[0].last_name,
-                    img_url: rows[0].img_url,
-                    message: result.rows[0].message,
-                    created_at: result.rows[0].created_at,
-                },
-            ];
-            console.log(finalResult);
-            io.emit("forumMessages", finalResult);
+            const { rows: newMessage } = await insertMessage(message, userId);
+            const { rows: userInfo } = await getUserInfo(userId);
+            const newMsgAndUserUnfo = {
+                first_name: userInfo[0].first_name,
+                last_name: userInfo[0].last_name,
+                img_url: userInfo[0].img_url,
+                message: newMessage[0].message,
+                created_at: newMessage[0].created_at,
+            };
+            io.emit("newMessage", newMsgAndUserUnfo);
         } catch (err) {
             console.log("Error in socket: ", err);
         }

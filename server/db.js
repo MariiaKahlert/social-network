@@ -186,3 +186,15 @@ module.exports.insertMessage = (message, userId) => {
         [message, userId]
     );
 };
+
+module.exports.selectMessages = () => {
+    return db.query(
+        `
+            SELECT first_name, last_name, img_url, message, messages.created_at
+            FROM users
+            JOIN messages ON messages.sender_id = users.id
+            ORDER BY messages.created_at DESC
+            LIMIT 10 
+        `
+    );
+};

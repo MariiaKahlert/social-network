@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-import { forumMessages, forumMessage } from "./actions";
+import { allMessages, newMessage } from "./actions";
 
 export let socket;
 
@@ -7,10 +7,8 @@ export const init = (store) => {
     if (!socket) {
         socket = io.connect();
 
-        socket.on("forumMessages", (msgs) =>
-            store.dispatch(forumMessages(msgs))
-        );
+        socket.on("allMessages", (msgs) => store.dispatch(allMessages(msgs)));
 
-        socket.on("forumMessage", (msg) => store.dispatch(forumMessage(msg)));
+        socket.on("newMessage", (msg) => store.dispatch(newMessage(msg)));
     }
 };

@@ -43,14 +43,16 @@ export async function disconnect(userId) {
     }
 }
 
-export async function forumMessage(msg) {
-    // console.log(msg);
+export async function allMessages(msgs) {
+    return {
+        type: "ALL_MESSAGES",
+        msgs,
+    };
 }
 
-export async function forumMessages(msgs) {
-    console.log(msgs);
+export async function newMessage(msg) {
     return {
-        type: "FORUM_MESSAGES",
-        msgs,
+        type: "NEW_MESSAGE",
+        msg,
     };
 }
