@@ -42,3 +42,11 @@ export async function disconnect(userId) {
         console.log("Error in disconnect action: ", err);
     }
 }
+
+export async function forumMessage(msg) {
+    console.log(msg);
+}
+
+export async function forumMessages(msgs) {
+    console.log(msgs);
+}

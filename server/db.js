@@ -175,3 +175,14 @@ module.exports.selectConnectionsAndRequests = (userId) => {
         [userId]
     );
 };
+
+module.exports.insertMessage = (message, userId) => {
+    return db.query(
+        `
+            INSERT INTO messages (message, sender_id)
+            VALUES ($1, $2)
+            RETURNING *
+        `,
+        [message, userId]
+    );
+};
