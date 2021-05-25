@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { socket } from "../socket";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function Forum({ loggedInUserId }) {
     const allMessages = useSelector((state) => state && state.allMessages);
@@ -33,28 +34,28 @@ export default function Forum({ loggedInUserId }) {
                             key={index}
                             className={`${
                                 loggedInUserId === message.sender_id
-                                    ? "self-end"
-                                    : ""
-                            } bg-${
-                                loggedInUserId === message.sender_id
-                                    ? "purple-400"
-                                    : "purple-50"
+                                    ? "self-end bg-purple-400"
+                                    : "bg-purple-50"
                             } flex w-2/3 rounded-lg mt-8 p-4`}
                         >
                             <div className="flex flex-col flex-shrink-0 items-center">
-                                <img
-                                    src={message.img_url || "/user.png"}
-                                    className={
-                                        `h-14 rounded-full ${
-                                            loggedInUserId === message.sender_id
-                                                ? "bg-purple-400"
-                                                : "bg-white"
-                                        } ` +
-                                        (message.img_url === null
-                                            ? "border-2 border-purple-200 p-2"
-                                            : "")
-                                    }
-                                ></img>
+                                <Link to={`/user/${message.sender_id}`}>
+                                    <img
+                                        src={message.img_url || "/user.png"}
+                                        className={
+                                            `h-14 rounded-full ${
+                                                loggedInUserId ===
+                                                message.sender_id
+                                                    ? "bg-purple-400"
+                                                    : "bg-white"
+                                            } ` +
+                                            (message.img_url === null
+                                                ? "border-2 border-purple-200 p-2"
+                                                : "")
+                                        }
+                                    ></img>
+                                </Link>
+
                                 <p
                                     className={`text-${
                                         loggedInUserId === message.sender_id

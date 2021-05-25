@@ -1,10 +1,3 @@
-const {
-    updateBio,
-    insertMessage,
-    selectMessages,
-    getUserInfo,
-} = require("./db");
-
 const express = require("express");
 const app = express();
 module.exports.app = app;
@@ -22,13 +15,7 @@ const io = require("socket.io")(server, {
     allowRequest: (req, callback) =>
         callback(null, req.headers.referer.startsWith("http://localhost:3000")),
 });
-
-// app.use(
-//     cookieSession({
-//         secret: cookieSecret,
-//         maxAge: 1000 * 60 * 60 * 24 * 14,
-//     })
-// );
+module.exports.io = io;
 
 // Cookie session
 const cookieSessionMiddleware = cookieSession({
@@ -87,19 +74,7 @@ require("./routes/user-info");
 require("./routes/uploader");
 
 // Bio update
-app.post("/update-bio", async (req, res) => {
-    const { bio } = req.body;
-    const { userId } = req.session;
-    try {
-        const result = await updateBio(bio, userId);
-        res.json(result.rows[0]);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            error: "Error in /update-bio route",
-        });
-    }
-});
+require("./routes/bio-update");
 
 // Find users
 require("./routes/users-search");
@@ -109,6 +84,9 @@ require("./routes/connection-status");
 
 // Connections and requests
 require("./routes/connections-requests");
+
+// Forum
+require("./routes/forum");
 
 app.get("*", function (req, res) {
     if (!req.session.userId) {
@@ -120,35 +98,4 @@ app.get("*", function (req, res) {
 
 server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
-});
-
-io.on("connection", async function (socket) {
-    if (!socket.request.session.userId) {
-        return socket.disconnect(true);
-    }
-    console.log(`socket with the id ${socket.id} is now connected`);
-
-    const userId = socket.request.session.userId;
-
-    const { rows: allMessages } = await selectMessages();
-    io.emit("allMessages", allMessages.reverse());
-
-    socket.on("newMessage", async (messageObj) => {
-        const { message } = messageObj;
-        try {
-            const { rows: newMessage } = await insertMessage(message, userId);
-            const { rows: userInfo } = await getUserInfo(userId);
-            const newMsgAndUserUnfo = {
-                sender_id: userInfo[0].id,
-                first_name: userInfo[0].first_name,
-                last_name: userInfo[0].last_name,
-                img_url: userInfo[0].img_url,
-                message: newMessage[0].message,
-                created_at: newMessage[0].created_at,
-            };
-            io.emit("newMessage", newMsgAndUserUnfo);
-        } catch (err) {
-            console.log("Error in socket: ", err);
-        }
-    });
 });
