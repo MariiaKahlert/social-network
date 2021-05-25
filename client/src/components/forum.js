@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 export default function Forum() {
     const allMessages = useSelector((state) => state && state.allMessages);
-
+    const elemRef = useRef();
     const sendMessage = (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -14,11 +14,37 @@ export default function Forum() {
             e.target.value = "";
         }
     };
+
+    useEffect(() => {
+        elemRef.current.scrollTop =
+            elemRef.current.scrollHeight - elemRef.current.clientHeight;
+    }, [allMessages]);
+
     return (
-        <div className="w-2/3 flex flex-col justify-end items-center bg-white shadow-lg rounded-lg">
-            <div className="flex flex-col justify-center">
+        <div className="w-2/3 flex flex-col justify-between items-center bg-white shadow-lg rounded-lg">
+            <div
+                ref={elemRef}
+                className="flex flex-col justify-center my-8 overflow-y-auto"
+                style={{ maxHeight: "30rem" }}
+            >
                 {(allMessages ? allMessages : []).map((message, index) => {
-                    return <p key={index}>{message.message}</p>;
+                    return (
+                        <div
+                            key={index}
+                            className="flex rounded-lg bg-purple-50"
+                        >
+                            <img
+                                src={message.img_url || "/user.png"}
+                                className={
+                                    "h-16 ml-8 rounded-lg bg-white " +
+                                    (message.img_url === null
+                                        ? "border-2 border-purple-200 p-2"
+                                        : "")
+                                }
+                            ></img>
+                            <p>{message.message}</p>
+                        </div>
+                    );
                 })}
             </div>
             <textarea
