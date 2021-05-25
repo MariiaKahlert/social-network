@@ -7,6 +7,7 @@ import Profile from "./components/profile";
 import OtherProfile from "./components/other-profile";
 import FindPeople from "./components/find-people";
 import Connections from "./components/connections";
+import Forum from "./components/forum";
 import axios from "./axios";
 
 export default class App extends Component {
@@ -107,6 +108,7 @@ export default class App extends Component {
                             )}
                         ></Route>
                         <Route path="/connections" component={Connections} />
+                        <Route path="/forum" component={Forum} />
                     </div>
 
                     {/* Overlay and modal */}

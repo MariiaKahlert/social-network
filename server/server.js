@@ -6,16 +6,35 @@ module.exports.app = app;
 
 const cookieSession = require("cookie-session");
 const cookieSecret = require("../secrets.json")["cookie-secret"];
+
 const csurf = require("csurf");
 const compression = require("compression");
 const path = require("path");
 
-app.use(
-    cookieSession({
-        secret: cookieSecret,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+// Socket setup
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
+
+// app.use(
+//     cookieSession({
+//         secret: cookieSecret,
+//         maxAge: 1000 * 60 * 60 * 24 * 14,
+//     })
+// );
+
+// Cookie session
+const cookieSessionMiddleware = cookieSession({
+    secret: cookieSecret,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 app.use((req, res, next) => {
@@ -94,6 +113,15 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});
+
+io.on("connection", function (socket) {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+    console.log(`socket with the id ${socket.id} is now connected`);
+
+    const userId = socket.request.session.userId;
 });
