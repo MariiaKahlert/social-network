@@ -1,4 +1,4 @@
-const { updateBio, insertMessage } = require("./db");
+const { updateBio, insertMessage, getUserInfo } = require("./db");
 
 const express = require("express");
 const app = express();
@@ -124,13 +124,26 @@ io.on("connection", function (socket) {
     console.log(`socket with the id ${socket.id} is now connected`);
 
     const userId = socket.request.session.userId;
-    console.log(userId);
+
     socket.on("forumMessage", async (msg) => {
         const { message } = msg;
         console.log(message);
         try {
             const result = await insertMessage(message, userId);
             console.log(result);
+            const { rows } = await getUserInfo(userId);
+            console.log(rows);
+            const finalResult = [
+                {
+                    first_name: rows[0].first_name,
+                    last_name: rows[0].last_name,
+                    img_url: rows[0].img_url,
+                    message: result.rows[0].message,
+                    created_at: result.rows[0].created_at,
+                },
+            ];
+            console.log(finalResult);
+            io.emit("forumMessages", finalResult);
         } catch (err) {
             console.log("Error in socket: ", err);
         }

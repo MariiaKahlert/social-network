@@ -28,5 +28,6 @@ export default function reducer(state = {}, action) {
             users: state.users.filter((user) => user.id !== action.userId),
         };
     }
+
     return state;
 }

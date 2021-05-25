@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 export default function Forum() {
     const forumMessages = useSelector((state) => state && state.forumMessages);
+    console.log(forumMessages);
 
     const sendMessage = (e) => {
         if (e.key === "Enter") {
