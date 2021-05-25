@@ -107,8 +107,13 @@ export default class App extends Component {
                                 <FindPeople loggedInUserId={this.state.id} />
                             )}
                         ></Route>
+                        <Route
+                            path="/forum"
+                            render={() => (
+                                <Forum loggedInUserId={this.state.id} />
+                            )}
+                        ></Route>
                         <Route path="/connections" component={Connections} />
-                        <Route path="/forum" component={Forum} />
                     </div>
 
                     {/* Overlay and modal */}

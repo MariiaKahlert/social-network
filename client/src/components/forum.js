@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { socket } from "../socket";
 import { useSelector } from "react-redux";
 
-export default function Forum() {
+export default function Forum({ loggedInUserId }) {
     const allMessages = useSelector((state) => state && state.allMessages);
     const elemRef = useRef();
     const sendMessage = (e) => {
@@ -24,25 +24,32 @@ export default function Forum() {
         <div className="w-2/3 flex flex-col justify-between items-center bg-white shadow-lg rounded-lg">
             <div
                 ref={elemRef}
-                className="flex flex-col justify-center my-8 overflow-y-auto"
+                className="w-2/3 flex flex-col justify-center my-8 overflow-y-auto"
                 style={{ maxHeight: "30rem" }}
             >
                 {(allMessages ? allMessages : []).map((message, index) => {
                     return (
                         <div
                             key={index}
-                            className="flex rounded-lg bg-purple-50"
+                            className="flex rounded-lg bg-purple-50 mt-8 p-4"
                         >
                             <img
                                 src={message.img_url || "/user.png"}
                                 className={
-                                    "h-16 ml-8 rounded-lg bg-white " +
+                                    "h-14 rounded-full bg-white " +
                                     (message.img_url === null
                                         ? "border-2 border-purple-200 p-2"
                                         : "")
                                 }
                             ></img>
-                            <p>{message.message}</p>
+                            <div className="ml-4">
+                                <p className="text-gray-400">
+                                    {new Date(message.created_at)
+                                        .toUTCString()
+                                        .replace("GMT", "")}
+                                </p>
+                                <p>{message.message}</p>
+                            </div>
                         </div>
                     );
                 })}
