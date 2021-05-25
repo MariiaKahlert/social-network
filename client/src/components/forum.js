@@ -3,6 +3,7 @@ import { socket } from "../socket";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+// Variables that should be available for the whole app lifecycle
 let lastRequestedMessageId = null;
 let scrollCheckStarted = false;
 let scrollHeightBeforeEmit = null;
@@ -21,6 +22,7 @@ export default function Forum({ loggedInUserId }) {
     };
 
     const checkScrollPos = () => {
+        // Avoid multiple requests to server for the same oldest message id
         if (
             lastRequestedMessageId !== allMessages[0].id &&
             elemRef.current.scrollTop <= 100
@@ -35,14 +37,17 @@ export default function Forum({ loggedInUserId }) {
     };
 
     useEffect(() => {
+        // Scroll to bottom when initial 10 messages are loaded
         if (allMessages && allMessages.length > 0 && allMessages.length <= 10) {
             elemRef.current.scrollTop =
                 elemRef.current.scrollHeight - elemRef.current.clientHeight;
         }
+        // Scroll to bottom in the new portion of loaded messages
         if (scrollHeightBeforeEmit) {
             elemRef.current.scrollTop =
                 elemRef.current.scrollHeight - scrollHeightBeforeEmit;
         }
+        // Start checking scrolling position once
         if (
             allMessages &&
             !scrollCheckStarted &&
