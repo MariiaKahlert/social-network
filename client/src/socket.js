@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-import { allMessages, newMessage } from "./actions";
+import { allMessages, moreMessages, newMessage } from "./actions";
 
 export let socket;
 
@@ -8,6 +8,8 @@ export const init = (store) => {
         socket = io.connect();
 
         socket.on("allMessages", (msgs) => store.dispatch(allMessages(msgs)));
+
+        socket.on("moreMessages", (msgs) => store.dispatch(moreMessages(msgs)));
 
         socket.on("newMessage", (msg) => store.dispatch(newMessage(msg)));
     }

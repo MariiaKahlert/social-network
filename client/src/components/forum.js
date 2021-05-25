@@ -3,6 +3,10 @@ import { socket } from "../socket";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+let lastRequestedMessageId = null;
+let scrollCheckStarted = false;
+let scrollHeightBeforeEmit = null;
+
 export default function Forum({ loggedInUserId }) {
     const allMessages = useSelector((state) => state && state.allMessages);
     const elemRef = useRef();
@@ -16,9 +20,37 @@ export default function Forum({ loggedInUserId }) {
         }
     };
 
+    const checkScrollPos = () => {
+        if (
+            lastRequestedMessageId !== allMessages[0].id &&
+            elemRef.current.scrollTop <= 100
+        ) {
+            scrollHeightBeforeEmit = elemRef.current.scrollHeight;
+            socket.emit("moreMessages", {
+                oldestMessageId: allMessages[0].id,
+            });
+            lastRequestedMessageId = allMessages[0].id;
+        }
+        setTimeout(checkScrollPos, 500);
+    };
+
     useEffect(() => {
-        elemRef.current.scrollTop =
-            elemRef.current.scrollHeight - elemRef.current.clientHeight;
+        if (allMessages && allMessages.length > 0 && allMessages.length <= 10) {
+            elemRef.current.scrollTop =
+                elemRef.current.scrollHeight - elemRef.current.clientHeight;
+        }
+        if (scrollHeightBeforeEmit) {
+            elemRef.current.scrollTop =
+                elemRef.current.scrollHeight - scrollHeightBeforeEmit;
+        }
+        if (
+            allMessages &&
+            !scrollCheckStarted &&
+            elemRef.current.scrollTop > 100
+        ) {
+            checkScrollPos();
+            scrollCheckStarted = true;
+        }
     }, [allMessages]);
 
     return (
@@ -96,7 +128,7 @@ export default function Forum({ loggedInUserId }) {
             <textarea
                 onKeyDown={sendMessage}
                 placeholder="Your message"
-                className="mb-8 h-12 w-2/3 border border-gray-300 text-gray-700 rounded-full px-4 py-3 focus:outline-none focus:border-gray-700 resize-none"
+                className="mb-8 h-12 w-2/3 border border-gray-300 text-black rounded-full px-4 py-3 focus:outline-none focus:border-gray-700 resize-none"
             ></textarea>
         </div>
     );

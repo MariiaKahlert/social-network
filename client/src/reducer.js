@@ -36,6 +36,13 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type === "MORE_MESSAGES") {
+        state = {
+            ...state,
+            allMessages: [...action.msgs, ...state.allMessages],
+        };
+    }
+
     if (action.type === "NEW_MESSAGE") {
         state = {
             ...state,

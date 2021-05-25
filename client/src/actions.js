@@ -50,6 +50,13 @@ export async function allMessages(msgs) {
     };
 }
 
+export async function moreMessages(msgs) {
+    return {
+        type: "MORE_MESSAGES",
+        msgs,
+    };
+}
+
 export async function newMessage(msg) {
     return {
         type: "NEW_MESSAGE",

@@ -1,5 +1,10 @@
 const { io } = require("../server");
-const { insertMessage, selectMessages, getUserInfo } = require("../db");
+const {
+    insertMessage,
+    selectMessages,
+    getUserInfo,
+    selectMoreMessages,
+} = require("../db");
 
 io.on("connection", async function (socket) {
     if (!socket.request.session.userId) {
@@ -10,7 +15,7 @@ io.on("connection", async function (socket) {
     const userId = socket.request.session.userId;
 
     const { rows: allMessages } = await selectMessages();
-    io.emit("allMessages", allMessages.reverse());
+    socket.emit("allMessages", allMessages.reverse());
 
     socket.on("newMessage", async (messageObj) => {
         const { message } = messageObj;
@@ -27,7 +32,20 @@ io.on("connection", async function (socket) {
             };
             io.emit("newMessage", newMsgAndUserUnfo);
         } catch (err) {
-            console.log("Error in socket: ", err);
+            console.log("Error in newMessage socket event: ", err);
+        }
+    });
+
+    socket.on("moreMessages", async (messageObj) => {
+        console.log(messageObj);
+        const { oldestMessageId } = messageObj;
+        try {
+            const { rows: moreMessages } = await selectMoreMessages(
+                oldestMessageId
+            );
+            socket.emit("moreMessages", moreMessages.reverse());
+        } catch (err) {
+            console.log("Error in moreMessages socket event: ", err);
         }
     });
 });
