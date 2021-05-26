@@ -4,6 +4,7 @@ import {
     moreMessages,
     newMessage,
     handleConnectionRequests,
+    newProfileImage,
 } from "./actions";
 
 export let socket;
@@ -20,6 +21,10 @@ export const init = (store) => {
 
         socket.on("handleConnectionRequests", (users) =>
             store.dispatch(handleConnectionRequests(users))
+        );
+
+        socket.on("newProfileImage", (user) =>
+            store.dispatch(newProfileImage(user))
         );
     }
 };

@@ -166,6 +166,7 @@ export default class App extends Component {
                                         toggleUploader={() =>
                                             this.toggleUploader(false)
                                         }
+                                        loggedInUserId={this.state.id}
                                     />
                                 )}
                             {this.state.modalIsVisible &&

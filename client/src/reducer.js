@@ -70,5 +70,23 @@ export default function reducer(state = {}, action) {
             users: action.users,
         };
     }
+
+    if (action.type === "NEW_PROFILE_IMAGE") {
+        state = {
+            ...state,
+            users: state.users.map((user) => {
+                if (user.id === action.user.userId) {
+                    return { ...user, img_url: action.user.imgUrl };
+                }
+                return user;
+            }),
+            allMessages: state.allMessages.map((message) => {
+                if (message.sender_id === action.user.userId) {
+                    return { ...message, img_url: action.user.imgUrl };
+                }
+                return message;
+            }),
+        };
+    }
     return state;
 }

@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { socket } from "../socket";
 import axios from "../axios";
 
 export default class Uploader extends Component {
@@ -20,6 +21,9 @@ export default class Uploader extends Component {
         try {
             const response = await axios.post("/upload", formData);
             const { img_url } = response.data;
+            socket.emit("newProfileImage", {
+                loggedInUserId: this.props.loggedInUserId,
+            });
             this.props.updateProfileImage(img_url);
         } catch (err) {
             console.log(err);

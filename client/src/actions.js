@@ -75,3 +75,10 @@ export async function handleConnectionRequests(users) {
         users: users,
     };
 }
+
+export async function newProfileImage(user) {
+    return {
+        type: "NEW_PROFILE_IMAGE",
+        user,
+    };
+}

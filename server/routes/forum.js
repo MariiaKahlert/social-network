@@ -37,7 +37,6 @@ io.on("connection", async function (socket) {
     });
 
     socket.on("moreMessages", async (messageObj) => {
-        console.log(messageObj);
         const { oldestMessageId } = messageObj;
         try {
             const { rows: moreMessages } = await selectMoreMessages(
@@ -46,6 +45,18 @@ io.on("connection", async function (socket) {
             socket.emit("moreMessages", moreMessages.reverse());
         } catch (err) {
             console.log("Error in moreMessages socket event: ", err);
+        }
+    });
+
+    socket.on("newProfileImage", async ({ loggedInUserId }) => {
+        try {
+            const { rows: userInfo } = await getUserInfo(loggedInUserId);
+            io.emit("newProfileImage", {
+                userId: userInfo[0].id,
+                imgUrl: userInfo[0].img_url,
+            });
+        } catch (err) {
+            console.log("Error in newProfileImage socket event: ", err);
         }
     });
 });
