@@ -3,7 +3,7 @@ import {
     allMessages,
     moreMessages,
     newMessage,
-    newConnectionRequest,
+    handleConnectionRequests,
 } from "./actions";
 
 export let socket;
@@ -18,8 +18,8 @@ export const init = (store) => {
 
         socket.on("newMessage", (msg) => store.dispatch(newMessage(msg)));
 
-        socket.on("newConnectionRequest", (connectionsAndRequests) =>
-            store.dispatch(newConnectionRequest(connectionsAndRequests))
+        socket.on("handleConnectionRequests", (users) =>
+            store.dispatch(handleConnectionRequests(users))
         );
     }
 };

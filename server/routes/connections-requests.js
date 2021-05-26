@@ -32,16 +32,21 @@ io.on("connection", async function (socket) {
         delete onlineUsers[socket.id];
     });
 
-    socket.on("newConnectionRequest", async ({ otherUserId }) => {
-        const { rows: connectionsAndRequests } =
-            await selectConnectionsAndRequests(otherUserId);
-        const otherUserSocket = io.sockets.sockets.get(
-            onlineUsers[otherUserId]
-        );
-        if (otherUserSocket) {
-            otherUserSocket.emit(
-                "newConnectionRequest",
-                connectionsAndRequests
+    socket.on("handleConnectionRequests", async ({ otherUserId }) => {
+        try {
+            const { rows: users } = await selectConnectionsAndRequests(
+                otherUserId
+            );
+            const otherUserSocket = io.sockets.sockets.get(
+                onlineUsers[otherUserId]
+            );
+            if (otherUserSocket) {
+                otherUserSocket.emit("handleConnectionRequests", users);
+            }
+        } catch (err) {
+            console.log(
+                "Error in handleConnectionRequests socket event: ",
+                err
             );
         }
     });

@@ -64,7 +64,7 @@ export default function reducer(state = {}, action) {
         };
     }
 
-    if (action.type === "NEW_CONNECTIONS_AND_REQUESTS") {
+    if (action.type === "HANDLE_CONNECTION_REQUESTS") {
         state = {
             ...state,
             users: action.users,

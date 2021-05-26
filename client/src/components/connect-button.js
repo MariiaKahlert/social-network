@@ -23,8 +23,8 @@ export default function ConnectButton({ userId }) {
                 btnText: buttonText,
                 otherUser: userId,
             });
-            if (buttonText === "Connect") {
-                socket.emit("newConnectionRequest", {
+            if (buttonText === "Connect" || buttonText === "Cancel") {
+                socket.emit("handleConnectionRequests", {
                     otherUserId: userId,
                 });
             }

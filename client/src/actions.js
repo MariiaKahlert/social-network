@@ -69,9 +69,9 @@ export async function resetNewMessages() {
     };
 }
 
-export async function newConnectionRequest(connectionsAndRequests) {
+export async function handleConnectionRequests(users) {
     return {
-        type: "NEW_CONNECTIONS_AND_REQUESTS",
-        users: connectionsAndRequests,
+        type: "HANDLE_CONNECTION_REQUESTS",
+        users: users,
     };
 }
