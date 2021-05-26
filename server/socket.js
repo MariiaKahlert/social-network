@@ -1,18 +1,29 @@
-const { io } = require("../server");
+const { io } = require("./server");
 const {
     insertMessage,
     selectMessages,
     getUserInfo,
     selectMoreMessages,
-} = require("../db");
+    selectConnectionsAndRequests,
+} = require("./db");
+const onlineUsers = {};
 
 io.on("connection", async function (socket) {
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
-    console.log(`socket with the id ${socket.id} is now connected`);
 
     const userId = socket.request.session.userId;
+    onlineUsers[userId] = socket.id;
+
+    console.log(`User ${userId} just connected with socket ${socket.id}`);
+
+    socket.on("disconnect", () => {
+        console.log(
+            `User ${userId} just disconnected with socket ${socket.id}`
+        );
+        delete onlineUsers[socket.id];
+    });
 
     const { rows: allMessages } = await selectMessages();
     socket.emit("allMessages", allMessages.reverse());
@@ -45,6 +56,25 @@ io.on("connection", async function (socket) {
             socket.emit("moreMessages", moreMessages.reverse());
         } catch (err) {
             console.log("Error in moreMessages socket event: ", err);
+        }
+    });
+
+    socket.on("handleConnectionRequests", async ({ otherUserId }) => {
+        try {
+            const { rows: users } = await selectConnectionsAndRequests(
+                otherUserId
+            );
+            const otherUserSocket = io.sockets.sockets.get(
+                onlineUsers[otherUserId]
+            );
+            if (otherUserSocket) {
+                otherUserSocket.emit("handleConnectionRequests", users);
+            }
+        } catch (err) {
+            console.log(
+                "Error in handleConnectionRequests socket event: ",
+                err
+            );
         }
     });
 
