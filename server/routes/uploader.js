@@ -32,8 +32,10 @@ app.post("/upload", uploader.single("file"), upload, async (req, res) => {
         try {
             const previousImgUrl = (
                 await getUserInfo(userId)
-            ).rows[0].img_url.slice(s3Url.length);
-            await deleteImage(previousImgUrl);
+            ).rows[0].img_url?.slice(s3Url.length);
+            if (previousImgUrl) {
+                await deleteImage(previousImgUrl);
+            }
             const result = await updateImgUrl(fullUrl, userId);
             res.json(result.rows[0]);
         } catch (err) {

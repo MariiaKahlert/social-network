@@ -174,7 +174,6 @@ export default class App extends Component {
                                         toggleDeleteAccount={() =>
                                             this.toggleDeleteAccount(false)
                                         }
-                                        loggedInUserId={this.state.id}
                                     />
                                 )}
                         </div>

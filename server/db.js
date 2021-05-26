@@ -212,3 +212,40 @@ module.exports.selectMoreMessages = (id) => {
         [id]
     );
 };
+
+module.exports.deleteUser = (userId) => {
+    return db.query(
+        `
+            DELETE FROM users
+            WHERE users.id = $1;
+        `,
+        [userId]
+    );
+};
+module.exports.deleteUserMessages = (userId) => {
+    return db.query(
+        `
+            DELETE FROM messages
+            WHERE sender_id = $1
+        `,
+        [userId]
+    );
+};
+module.exports.deleteUserConnections = (userId) => {
+    return db.query(
+        `
+            DELETE FROM connections
+            WHERE (recipient_id = $1 OR sender_id = $1)
+        `,
+        [userId]
+    );
+};
+module.exports.deleteUserCodes = (userId) => {
+    return db.query(
+        `
+            DELETE FROM codes
+            WHERE email = (SELECT email FROM users WHERE users.id = $1)
+        `,
+        [userId]
+    );
+};

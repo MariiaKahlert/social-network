@@ -1,3 +1,12 @@
+const {
+    deleteUser,
+    deleteUserMessages,
+    deleteUserConnections,
+    deleteUserCodes,
+    getUserInfo,
+} = require("./db");
+const { s3Url } = require("../config.json");
+const { deleteImage } = require("./utils/s3");
 const express = require("express");
 const app = express();
 module.exports.app = app;
@@ -89,8 +98,29 @@ require("./routes/connections-requests");
 require("./routes/forum");
 
 // Delete account
-app.get("/delete-account", async (req, res) => {
-    console.log(req.query);
+app.post("/delete-account", async (req, res) => {
+    const { userId } = req.session;
+    try {
+        const previousImgUrl = (
+            await getUserInfo(userId)
+        ).rows[0].img_url?.slice(s3Url.length);
+        if (previousImgUrl) {
+            await deleteImage(previousImgUrl);
+        }
+        await deleteUserMessages(userId);
+        await deleteUserConnections(userId);
+        await deleteUserCodes(userId);
+        await deleteUser(userId);
+        req.session = null;
+        res.status(200).json({
+            success: "Account deleted successfully",
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: "Error in /delete-account route",
+        });
+    }
 });
 
 app.get("*", function (req, res) {

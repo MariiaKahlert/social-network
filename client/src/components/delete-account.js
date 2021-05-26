@@ -1,12 +1,12 @@
 import axios from "../axios";
 
-export default function DeleteAccount({ toggleDeleteAccount, loggedInUserId }) {
+export default function DeleteAccount({ toggleDeleteAccount }) {
     const handleDeleteAccount = async () => {
         try {
-            const { data } = await axios.get(
-                `/delete-account?q=${loggedInUserId}`
-            );
-            console.log(data);
+            const { data } = await axios.post("/delete-account");
+            if (data.success) {
+                location.replace("/welcome#/");
+            }
         } catch (err) {
             console.log("Error in handleDeleteAccount in DeleteAccount: ", err);
         }
