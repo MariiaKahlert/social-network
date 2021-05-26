@@ -88,6 +88,11 @@ require("./routes/connections-requests");
 // Forum
 require("./routes/forum");
 
+// Delete account
+app.get("/delete-account", async (req, res) => {
+    console.log(req.query);
+});
+
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");

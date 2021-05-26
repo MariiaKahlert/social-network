@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export default function Menu({ loggedInUserId }) {
+export default function Menu({ toggleDeleteAccount, loggedInUserId }) {
     const requests = useSelector(
         (state) =>
             state.users && state.users.filter((user) => user.accepted === false)
@@ -88,7 +88,7 @@ export default function Menu({ loggedInUserId }) {
                 </Link>
             </div>
 
-            <div className="mb-8 flex items-center">
+            <div className="flex items-center">
                 {location.pathname === "/forum" ? (
                     <img src="/active-chat.png" className="h-4"></img>
                 ) : (
@@ -117,24 +117,24 @@ export default function Menu({ loggedInUserId }) {
                 )}
             </div>
 
-            <div className="mb-4 flex items-center">
-                <img src="/inactive-bin.png" className="h-4"></img>
-                <Link
-                    to="/delete-account"
-                    className="ml-4 text-purple-200 text-lg hover:text-white duration-200"
-                >
-                    Delete account
-                </Link>
-            </div>
-
-            <div className="mb-8 flex items-center">
-                <img src="/inactive-logout.png" className="h-5"></img>
+            <div className="mt-56 mb-4 flex items-center">
+                <img src="/inactive-logout.png" className="h-4"></img>
                 <a
                     href="/logout"
-                    className="ml-3 text-purple-200 text-lg hover:text-white hover:underline duration-200"
+                    className="ml-4 text-purple-200 text-lg hover:text-white hover:underline duration-200"
                 >
                     Log out
                 </a>
+            </div>
+
+            <div className="mb-4 flex items-center">
+                <img src="/inactive-bin.png" className="h-4"></img>
+                <button
+                    onClick={toggleDeleteAccount}
+                    className="ml-4 text-purple-200 text-lg hover:text-white duration-200"
+                >
+                    Delete account
+                </button>
             </div>
         </div>
     );
