@@ -40,25 +40,27 @@ export default function Forum({ loggedInUserId }) {
 
     useEffect(() => {
         dispatch(resetNewMessages());
-        // Scroll to bottom when initial 10 messages are loaded
-        if (!scrollHeightBeforeEmit) {
-            elemRef.current.scrollTop =
-                elemRef.current.scrollHeight - elemRef.current.clientHeight;
-        }
-        // Scroll to bottom in the new portion of loaded messages
-        if (scrollHeightBeforeEmit) {
-            elemRef.current.scrollTop =
-                elemRef.current.scrollHeight - scrollHeightBeforeEmit;
-            scrollHeightBeforeEmit = null;
-        }
-        // Start checking scrolling position once
-        if (
-            allMessages &&
-            !scrollCheckStarted &&
-            elemRef.current.scrollTop > 100
-        ) {
-            checkScrollPos();
-            scrollCheckStarted = true;
+        if (elemRef.current) {
+            // Scroll to bottom when initial 10 messages are loaded
+            if (!scrollHeightBeforeEmit) {
+                elemRef.current.scrollTop =
+                    elemRef.current.scrollHeight - elemRef.current.clientHeight;
+            }
+            // Scroll to bottom in the new portion of loaded messages
+            if (scrollHeightBeforeEmit) {
+                elemRef.current.scrollTop =
+                    elemRef.current.scrollHeight - scrollHeightBeforeEmit;
+                scrollHeightBeforeEmit = null;
+            }
+            // Start checking scrolling position once
+            if (
+                allMessages &&
+                !scrollCheckStarted &&
+                elemRef.current.scrollTop > 100
+            ) {
+                checkScrollPos();
+                scrollCheckStarted = true;
+            }
         }
     }, [allMessages]);
 
