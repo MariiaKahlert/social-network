@@ -24,18 +24,20 @@ export default function Forum({ loggedInUserId }) {
     };
 
     const checkScrollPos = () => {
-        // Avoid multiple requests to server for the same oldest message id
-        if (
-            lastRequestedMessageId !== allMessages[0].id &&
-            elemRef.current.scrollTop <= 100
-        ) {
-            scrollHeightBeforeEmit = elemRef.current.scrollHeight;
-            socket.emit("moreMessages", {
-                oldestMessageId: allMessages[0].id,
-            });
-            lastRequestedMessageId = allMessages[0].id;
+        if (elemRef.current) {
+            // Avoid multiple requests to server for the same oldest message id
+            if (
+                lastRequestedMessageId !== allMessages[0].id &&
+                elemRef.current.scrollTop <= 100
+            ) {
+                scrollHeightBeforeEmit = elemRef.current.scrollHeight;
+                socket.emit("moreMessages", {
+                    oldestMessageId: allMessages[0].id,
+                });
+                lastRequestedMessageId = allMessages[0].id;
+            }
+            setTimeout(checkScrollPos, 500);
         }
-        setTimeout(checkScrollPos, 500);
     };
 
     useEffect(() => {

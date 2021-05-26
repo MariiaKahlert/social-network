@@ -1,7 +1,7 @@
 const { app } = require("../server");
-const { upload } = require("../utils/s3");
+const { upload, deleteImage } = require("../utils/s3");
 const { s3Url } = require("../../config.json");
-const { updateImgUrl } = require("../db");
+const { updateImgUrl, getUserInfo } = require("../db");
 const path = require("path");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
@@ -30,6 +30,10 @@ app.post("/upload", uploader.single("file"), upload, async (req, res) => {
         const { userId } = req.session;
         const fullUrl = s3Url + filename;
         try {
+            const previousImgUrl = (
+                await getUserInfo(userId)
+            ).rows[0].img_url.slice(s3Url.length);
+            await deleteImage(previousImgUrl);
             const result = await updateImgUrl(fullUrl, userId);
             res.json(result.rows[0]);
         } catch (err) {

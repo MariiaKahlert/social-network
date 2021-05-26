@@ -40,3 +40,12 @@ module.exports.upload = (req, res, next) => {
             res.sendStatus(404);
         });
 };
+
+module.exports.deleteImage = (imgUrl) => {
+    return s3
+        .deleteObject({
+            Bucket: "mkahlert-imageboard",
+            Key: imgUrl,
+        })
+        .promise();
+};
