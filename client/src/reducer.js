@@ -63,5 +63,12 @@ export default function reducer(state = {}, action) {
             newMessages: [],
         };
     }
+
+    if (action.type === "NEW_CONNECTIONS_AND_REQUESTS") {
+        state = {
+            ...state,
+            users: action.users,
+        };
+    }
     return state;
 }

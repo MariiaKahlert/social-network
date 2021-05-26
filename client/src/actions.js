@@ -68,3 +68,10 @@ export async function resetNewMessages() {
         type: "RESET_NEW_MESSAGES",
     };
 }
+
+export async function newConnectionRequest(connectionsAndRequests) {
+    return {
+        type: "NEW_CONNECTIONS_AND_REQUESTS",
+        users: connectionsAndRequests,
+    };
+}

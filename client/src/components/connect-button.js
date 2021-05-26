@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { socket } from "../socket";
 import axios from "../axios";
 
 export default function ConnectButton({ userId }) {
@@ -22,6 +23,11 @@ export default function ConnectButton({ userId }) {
                 btnText: buttonText,
                 otherUser: userId,
             });
+            if (buttonText === "Connect") {
+                socket.emit("newConnectionRequest", {
+                    otherUserId: userId,
+                });
+            }
             setButtonText(data.btnText);
         } catch (err) {
             console.log(err);
