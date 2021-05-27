@@ -7,6 +7,7 @@ import ConnectButton from "../components/connect-button";
 import axios from "../axios";
 
 export default function OtherProfile(props) {
+    console.log(props);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [imgUrl, setImgUrl] = useState("");

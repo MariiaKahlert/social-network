@@ -122,6 +122,12 @@ export default class App extends Component {
                             )}
                         ></Route>
                         <Route path="/user/:id" component={OtherProfile} />
+                        {/* <Route
+                            path="/user/:id"
+                            render={() => (
+                                <OtherProfile loggedInUserId={this.state.id} />
+                            )}
+                        ></Route> */}
                         <Route
                             path="/users"
                             render={() => (

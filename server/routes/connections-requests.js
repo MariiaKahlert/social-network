@@ -19,9 +19,13 @@ app.get("/connections-requests", async (req, res) => {
 
 app.get("/other-connections", async (req, res) => {
     const { q: otherUserId } = req.query;
+    const { userId: loggedInUserId } = req.session;
     try {
         const { rows } = await selectOtherConnections(otherUserId);
-        res.json(rows);
+        const withoutLoggedInUser = rows.filter(
+            (user) => user.id !== loggedInUserId
+        );
+        res.json(withoutLoggedInUser);
     } catch (err) {
         console.log(err);
         res.status(500).json({
