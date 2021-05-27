@@ -13,13 +13,23 @@ export default function OtherProfile(props) {
     const [bio, setBio] = useState("");
 
     const dispatch = useDispatch();
-    const connections = useSelector(
+    const otherUser = useSelector(
+        (state) =>
+            state.users &&
+            state.users.find(
+                (user) => user.id === parseInt(props.match.params.id)
+            )
+    );
+
+    const otherConnections = useSelector(
         (state) => state.otherUsers && state.otherUsers.map((user) => user)
     );
 
     useEffect(() => {
         const { id } = props.match.params;
-        dispatch(otherUserConnections(id));
+        if (otherUser && otherUser.accepted) {
+            dispatch(otherUserConnections(id));
+        }
         (async () => {
             try {
                 const response = await axios.get(`/other-user/${id}`);
@@ -56,37 +66,44 @@ export default function OtherProfile(props) {
                     </p>
                 )}
             </div>
-            {connections && connections.length > 0 && (
-                <div className="mb-4 w-2/3">
-                    <h3 className="font-bold text-lg text-center">
-                        Also connected with
-                    </h3>
-                    <div className="flex justify-evenly mt-2">
-                        {connections.map((user, index) => {
-                            return (
-                                <div
-                                    key={index}
-                                    className="flex flex-col items-center"
-                                >
-                                    <Link to={`/user/${user.id}`}>
-                                        <img
-                                            src={user.img_url || "/user.png"}
-                                            className={
-                                                "h-14 rounded-full " +
-                                                (!user.img_url
-                                                    ? "border-2 border-purple-200 p-2"
-                                                    : "")
-                                            }
-                                        ></img>
-                                    </Link>
 
-                                    <p>{user.first_name}</p>
-                                </div>
-                            );
-                        })}
+            {/* eslint-disable */}
+            {otherUser &&
+                otherUser.accepted &&
+                otherConnections &&
+                otherConnections.length > 0 && (
+                    <div className="mb-4 w-2/3">
+                        <h3 className="font-bold text-lg text-center">
+                            Also connected with
+                        </h3>
+                        <div className="flex justify-evenly mt-2">
+                            {otherConnections.map((user, index) => {
+                                return (
+                                    <div
+                                        key={index}
+                                        className="flex flex-col items-center"
+                                    >
+                                        <Link to={`/user/${user.id}`}>
+                                            <img
+                                                src={
+                                                    user.img_url || "/user.png"
+                                                }
+                                                className={
+                                                    "h-14 rounded-full " +
+                                                    (!user.img_url
+                                                        ? "border-2 border-purple-200 p-2"
+                                                        : "")
+                                                }
+                                            ></img>
+                                        </Link>
+
+                                        <p>{user.first_name}</p>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
         </div>
     );
 }
