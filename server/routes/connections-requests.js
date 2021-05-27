@@ -1,5 +1,8 @@
 const { app } = require("../server");
-const { selectConnectionsAndRequests } = require("../db");
+const {
+    selectConnectionsAndRequests,
+    selectOtherConnections,
+} = require("../db");
 
 app.get("/connections-requests", async (req, res) => {
     const { userId } = req.session;
@@ -10,6 +13,19 @@ app.get("/connections-requests", async (req, res) => {
         console.log(err);
         res.status(500).json({
             error: "Error in /connections-requests route",
+        });
+    }
+});
+
+app.get("/other-connections", async (req, res) => {
+    const { q: otherUserId } = req.query;
+    try {
+        const { rows } = await selectOtherConnections(otherUserId);
+        res.json(rows);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: "Error in /other-connections route",
         });
     }
 });

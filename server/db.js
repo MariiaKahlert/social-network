@@ -176,6 +176,19 @@ module.exports.selectConnectionsAndRequests = (userId) => {
     );
 };
 
+module.exports.selectOtherConnections = (otherUserId) => {
+    return db.query(
+        `
+            SELECT users.id, first_name, img_url, accepted
+            FROM connections
+            JOIN users
+            ON (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+            OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
+        `,
+        [otherUserId]
+    );
+};
+
 module.exports.insertMessage = (message, userId) => {
     return db.query(
         `

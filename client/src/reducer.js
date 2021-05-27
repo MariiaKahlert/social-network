@@ -6,6 +6,13 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type === "OTHER_CONNECTIONS") {
+        state = {
+            ...state,
+            otherUsers: action.otherUsers,
+        };
+    }
+
     if (action.type === "ACCEPT_CONNECTION") {
         state = {
             ...state,

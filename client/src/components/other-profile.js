@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { otherUserConnections } from "../actions";
+import { Link } from "react-router-dom";
 import ProfilePicture from "../components/profile-picture";
 import ConnectButton from "../components/connect-button";
 import axios from "../axios";
@@ -9,8 +12,14 @@ export default function OtherProfile(props) {
     const [imgUrl, setImgUrl] = useState("");
     const [bio, setBio] = useState("");
 
+    const dispatch = useDispatch();
+    const connections = useSelector(
+        (state) => state.otherUsers && state.otherUsers.map((user) => user)
+    );
+
     useEffect(() => {
         const { id } = props.match.params;
+        !connections && dispatch(otherUserConnections(id));
         (async () => {
             try {
                 const response = await axios.get(`/other-user/${id}`);
@@ -47,6 +56,35 @@ export default function OtherProfile(props) {
                     </p>
                 )}
             </div>
+            {connections && connections.length > 0 && (
+                <div className="mb-4">
+                    <h3 className="font-bold text-lg">Also connected with</h3>
+                    <div className="flex justify-evenly mt-2">
+                        {connections.map((user, index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    className="flex flex-col items-center"
+                                >
+                                    {/* <Link to={`/user/${user.id}`}> */}
+                                    <img
+                                        src={user.img_url || "/user.png"}
+                                        className={
+                                            "h-14 rounded-full " +
+                                            (!user.img_url
+                                                ? "border-2 border-purple-200 p-2"
+                                                : "")
+                                        }
+                                    ></img>
+                                    {/* </Link> */}
+
+                                    <p>{user.first_name}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
