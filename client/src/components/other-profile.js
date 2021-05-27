@@ -27,9 +27,8 @@ export default function OtherProfile(props) {
 
     useEffect(() => {
         const { id } = props.match.params;
-        if (otherUser && otherUser.accepted) {
-            dispatch(otherUserConnections(id));
-        }
+        dispatch(otherUserConnections(id));
+
         (async () => {
             try {
                 const response = await axios.get(`/other-user/${id}`);
@@ -76,12 +75,12 @@ export default function OtherProfile(props) {
                         <h3 className="font-bold text-lg text-center">
                             Also connected with
                         </h3>
-                        <div className="flex justify-evenly mt-2">
+                        <div className="flex justify-center mt-2">
                             {otherConnections.map((user, index) => {
                                 return (
                                     <div
                                         key={index}
-                                        className="flex flex-col items-center"
+                                        className="flex flex-col mx-4 items-center"
                                     >
                                         <Link to={`/user/${user.id}`}>
                                             <img
