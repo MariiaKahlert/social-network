@@ -156,6 +156,7 @@ export default class App extends Component {
                         }}
                     >
                         <div className="lg:w-1/5 md:w-1/3"></div>
+                        {/* eslint-disable */}
                         <div className="lg:w-4/5 md:w-2/3 flex items-center justify-center">
                             {this.state.modalIsVisible &&
                                 this.state.uploaderModal && (
