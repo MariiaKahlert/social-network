@@ -49,7 +49,11 @@ app.use(express.json());
 
 app.use(compression());
 
-app.use(express.static(path.join(__dirname, "..", "client", "public")));
+app.use(
+    express.static(path.join(__dirname, "..", "client", "public"), {
+        maxAge: 1000 * 60 * 60 * 24,
+    })
+);
 
 // Routes
 
