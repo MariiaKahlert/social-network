@@ -66,24 +66,26 @@ export default function Connections() {
                             You don&apos;t have any connections
                         </p>
                     )}
-                    {connections.map((user, index) => {
-                        return (
-                            <div
-                                key={index}
-                                className="group flex items-center justify-between w-full h-28 mt-4 bg-purple-100 rounded-lg border-2 border-purple-200 duration-200 hover:bg-white hover:shadow-lg hover:border-transparent"
-                            >
-                                {userInfo(user)}
-                                <button
-                                    onClick={() =>
-                                        dispatch(disconnect(user.id))
-                                    }
-                                    className="bg-purple-200 font-bold rounded-full md:w-1/3 lg:w-1/4 mr-8 p-2 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                    {connections
+                        .sort((a, b) => b.id - a.id)
+                        .map((user, index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    className="group flex items-center justify-between w-full h-28 mt-4 bg-purple-100 rounded-lg border-2 border-purple-200 duration-200 hover:bg-white hover:shadow-lg hover:border-transparent"
                                 >
-                                    Disconnect
-                                </button>
-                            </div>
-                        );
-                    })}
+                                    {userInfo(user)}
+                                    <button
+                                        onClick={() =>
+                                            dispatch(disconnect(user.id))
+                                        }
+                                        className="bg-purple-200 font-bold rounded-full md:w-1/3 lg:w-1/4 mr-8 p-2 duration-200 hover:bg-purple-300 hover:text-gray-700"
+                                    >
+                                        Disconnect
+                                    </button>
+                                </div>
+                            );
+                        })}
                 </div>
             </div>
             <div className="lg:w-1/3 fixed top-16 right-12">
