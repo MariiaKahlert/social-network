@@ -128,6 +128,7 @@ export default class App extends Component {
                                     loggedInUserId={this.state.id}
                                     match={props.match}
                                     key={props.match.url}
+                                    history={props.history}
                                 />
                             )}
                         ></Route>

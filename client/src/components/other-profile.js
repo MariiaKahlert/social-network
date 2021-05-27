@@ -57,8 +57,10 @@ export default function OtherProfile(props) {
                 )}
             </div>
             {connections && connections.length > 0 && (
-                <div className="mb-4">
-                    <h3 className="font-bold text-lg">Also connected with</h3>
+                <div className="mb-4 w-2/3">
+                    <h3 className="font-bold text-lg text-center">
+                        Also connected with
+                    </h3>
                     <div className="flex justify-evenly mt-2">
                         {connections.map((user, index) => {
                             return (
