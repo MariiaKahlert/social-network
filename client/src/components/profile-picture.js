@@ -42,7 +42,7 @@ export default function ProfilePicture({
                     </div>
 
                     <div className="mt-8">
-                        <p className="text-2xl text-black font-bold">
+                        <p className="text-2xl text-black text-center font-bold">
                             {firstName} {lastName}
                         </p>
                     </div>

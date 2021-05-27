@@ -121,13 +121,16 @@ export default class App extends Component {
                                 />
                             )}
                         ></Route>
-                        <Route path="/user/:id" component={OtherProfile} />
-                        {/* <Route
+                        <Route
                             path="/user/:id"
-                            render={() => (
-                                <OtherProfile loggedInUserId={this.state.id} />
+                            render={(props) => (
+                                <OtherProfile
+                                    loggedInUserId={this.state.id}
+                                    match={props.match}
+                                    key={props.match.url}
+                                />
                             )}
-                        ></Route> */}
+                        ></Route>
                         <Route
                             path="/users"
                             render={() => (

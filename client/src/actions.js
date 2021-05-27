@@ -13,10 +13,8 @@ export async function getConnectionsAndRequests() {
 }
 
 export async function otherUserConnections(id) {
-    console.log("otherUserConnections action");
     try {
         const { data } = await axios.get(`/other-connections?q=${id}`);
-        console.log(data);
         return {
             type: "OTHER_CONNECTIONS",
             otherUsers: data,
