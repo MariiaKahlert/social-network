@@ -149,7 +149,7 @@ export default class App extends Component {
 
                     {/* Overlay and modal */}
                     <div
-                        className="absolute bg-purple-100 bg-opacity-50 backdrop-filter backdrop-blur-sm h-screen w-screen duration-200"
+                        className="fixed bg-purple-100 bg-opacity-50 backdrop-filter backdrop-blur-sm h-screen w-screen duration-200"
                         style={{
                             opacity: this.state.modalIsVisible ? 1 : 0,
                             zIndex: this.state.modalIsVisible ? 10 : -1,
