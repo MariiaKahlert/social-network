@@ -176,7 +176,7 @@ module.exports.selectConnectionsAndRequests = (userId) => {
     );
 };
 
-module.exports.selectOtherConnections = (otherUserId) => {
+module.exports.selectOtherConnections = (otherUserId, loggedInUserId) => {
     return db.query(
         `
             SELECT users.id, first_name, img_url, accepted
@@ -184,9 +184,10 @@ module.exports.selectOtherConnections = (otherUserId) => {
             JOIN users
             ON (accepted = true AND recipient_id = $1 AND sender_id = users.id)
             OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
-            LIMIT 4
+            WHERE users.id != $2
+            LIMIT 3
         `,
-        [otherUserId]
+        [otherUserId, loggedInUserId]
     );
 };
 

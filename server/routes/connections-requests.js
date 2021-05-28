@@ -21,11 +21,11 @@ app.get("/other-connections", async (req, res) => {
     const { q: otherUserId } = req.query;
     const { userId: loggedInUserId } = req.session;
     try {
-        const { rows } = await selectOtherConnections(otherUserId);
-        const withoutLoggedInUser = rows.filter(
-            (user) => user.id !== loggedInUserId
+        const { rows } = await selectOtherConnections(
+            otherUserId,
+            loggedInUserId
         );
-        res.json(withoutLoggedInUser);
+        res.json(rows);
     } catch (err) {
         console.log(err);
         res.status(500).json({
